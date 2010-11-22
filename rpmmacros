@@ -1,0 +1,4 @@
+%home		%(echo $HOME)
+%_topdir	%{home}/powerstack
+%vendor		PowerStack
+%packager	Santi Saez <santi@woop.es>
