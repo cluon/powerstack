@@ -3,7 +3,7 @@
 Summary:	The NetBSD Editline library
 Name:		libedit
 Version:	2.11
-Release:	4
+Release:	5
 License:	BSD
 Group:		System Environment/Libraries
 URL:		http://www.thrysoee.dk/editline/
@@ -49,7 +49,7 @@ make %{?_smp_mflags}
 rm -rf $RPM_BUILD_ROOT
 
 make install INSTALL="%{__install} -p" DESTDIR=$RPM_BUILD_ROOT
-find $RPM_BUILD_ROOT -type f -name "*.la" -delete
+find $RPM_BUILD_ROOT -type f -name "*.la" -exec rm -f {} \;
 
 %clean
 rm -rf $RPM_BUILD_ROOT
