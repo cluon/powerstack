@@ -2,3 +2,9 @@
 %_topdir	%{home}/powerstack
 %vendor		PowerStack
 %packager	Santi Saez <santi@woop.es>
+
+# Conditional build stuff
+%with()			%{expand:%%{?with_%{1}:1}%%{!?with_%{1}:0}}
+%without()		%{expand:%%{?with_%{1}:0}%%{!?with_%{1}:1}}
+%bcond_with()		%{expand:%%{?_with_%{1}:%%global with_%{1} 1}}
+%bcond_without()	%{expand:%%{!?_without_%{1}:%%global with_%{1} 1}}
