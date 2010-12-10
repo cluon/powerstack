@@ -1,12 +1,13 @@
 Summary: Conversion between character sets and surfaces
 Name: recode
 Version: 3.6
-Release: 24
+Release: 25
 License: GPL
 Group: Applications/File
 Source: http://recode.progiciels-bpi.ca/archives/recode-%{version}.tar.gz
 Patch0: recode.patch
 Patch1: recode-3.6-getcwd.patch
+Patch2: recode-3.6-config.sub-x86_64.patch
 Url: http://recode.progiciels-bpi.ca/
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -41,6 +42,7 @@ are supported.
 %setup -q
 %patch0 -p1
 %patch1 -p1 -b .getcwd
+%patch2 -p1
 
 %build
 #%configure --disable-static
