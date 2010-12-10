@@ -14,7 +14,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name: php
 Version: 5.3.3
-Release: 1
+Release: 2
 License: PHP
 Group: Development/Languages
 URL: http://www.php.net/
@@ -95,6 +95,7 @@ Provides: php-pcntl, php-readline
 The php-cli package contains the command-line interface 
 executing PHP scripts, /usr/bin/php, and the CGI interface.
 
+%if 0%{?rhel} > 5
 %package zts
 Group: Development/Languages
 Summary: Thread-safe PHP interpreter for use with the Apache HTTP Server
@@ -105,6 +106,7 @@ BuildRequires: libtool-ltdl-devel
 %description zts
 The php-zts package contains a module for use with the Apache HTTP
 Server which can operate under a threaded server processing model.
+%endif
 
 %package common
 Group: Development/Languages
@@ -297,7 +299,10 @@ Summary: A module for PHP applications for using the gd graphics library
 Group: Development/Languages
 Requires: php-common = %{version}-%{release}
 # Required to build the bundled GD library
-BuildRequires: libXpm-devel, libjpeg-devel, libpng-devel, freetype-devel
+BuildRequires: libjpeg-devel, libpng-devel, freetype-devel
+%if 0%{?rhel} > 5
+BuildRequires: libXpm-devel
+%endif
 
 %description gd
 The php-gd package contains a dynamic shared object that will add
@@ -489,6 +494,9 @@ touch configure.in
 ./buildconf --force
 
 CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing -Wno-pointer-sign"
+%if 0%{?rhel} < 5
+	CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
+%endif
 export CFLAGS
 
 # Install extension modules in %{_libdir}/php/modules.
@@ -517,7 +525,9 @@ ln -sf ../configure
 	--with-exec-dir=%{_bindir} \
 	--with-freetype-dir=%{_prefix} \
 	--with-png-dir=%{_prefix} \
+%if 0%{?rhel} > 5
 	--with-xpm-dir=%{_prefix} \
+%endif
 	--enable-gd-native-ttf \
 	--without-gdbm \
 	--with-gettext \
@@ -668,7 +678,9 @@ install -m 755 -d $RPM_BUILD_ROOT%{_libdir}/httpd/modules
 install -m 755 build-apache/libs/libphp5.so $RPM_BUILD_ROOT%{_libdir}/httpd/modules
 
 # install the ZTS DSO
+%if 0%{?rhel} > 5
 install -m 755 build-zts/libs/libphp5.so $RPM_BUILD_ROOT%{_libdir}/httpd/modules/libphp5-zts.so
+%endif
 
 # Apache config fragment
 install -m 755 -d $RPM_BUILD_ROOT/etc/httpd/conf.d
@@ -800,9 +812,11 @@ webserver restart
 %{_mandir}/man1/php.1*
 %doc sapi/cgi/README* sapi/cli/README
 
+%if 0%{?rhel} > 5
 %files zts
 %defattr(-,root,root)
 %{_libdir}/httpd/modules/libphp5-zts.so
+%endif
 
 %files devel
 %defattr(-,root,root)
