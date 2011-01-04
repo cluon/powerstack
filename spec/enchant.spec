@@ -12,7 +12,7 @@
 Summary: An Enchanting Spell Checking Library
 Name: enchant
 Version: 1.4.2
-Release: 4
+Release: 5
 Epoch: 1
 Group: System Environment/Libraries
 License: LGPLv2+
