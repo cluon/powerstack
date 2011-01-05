@@ -13,8 +13,8 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: php
-Version: 5.3.3
-Release: 2
+Version: 5.3.4
+Release: 3
 License: PHP
 Group: Development/Languages
 URL: http://www.php.net/
@@ -95,7 +95,7 @@ Provides: php-pcntl, php-readline
 The php-cli package contains the command-line interface 
 executing PHP scripts, /usr/bin/php, and the CGI interface.
 
-%if 0%{?rhel} > 5
+%if 0%{?rhel} >= 5
 %package zts
 Group: Development/Languages
 Summary: Thread-safe PHP interpreter for use with the Apache HTTP Server
@@ -300,7 +300,7 @@ Group: Development/Languages
 Requires: php-common = %{version}-%{release}
 # Required to build the bundled GD library
 BuildRequires: libjpeg-devel, libpng-devel, freetype-devel
-%if 0%{?rhel} > 5
+%if 0%{?rhel} >= 5
 BuildRequires: libXpm-devel
 %endif
 
@@ -494,7 +494,7 @@ touch configure.in
 ./buildconf --force
 
 CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing -Wno-pointer-sign"
-%if 0%{?rhel} < 5
+%if 0%{?rhel} <= 5
 	CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
 %endif
 export CFLAGS
@@ -525,7 +525,7 @@ ln -sf ../configure
 	--with-exec-dir=%{_bindir} \
 	--with-freetype-dir=%{_prefix} \
 	--with-png-dir=%{_prefix} \
-%if 0%{?rhel} > 5
+%if 0%{?rhel} >= 5
 	--with-xpm-dir=%{_prefix} \
 %endif
 	--enable-gd-native-ttf \
@@ -678,7 +678,7 @@ install -m 755 -d $RPM_BUILD_ROOT%{_libdir}/httpd/modules
 install -m 755 build-apache/libs/libphp5.so $RPM_BUILD_ROOT%{_libdir}/httpd/modules
 
 # install the ZTS DSO
-%if 0%{?rhel} > 5
+%if 0%{?rhel} >= 5
 install -m 755 build-zts/libs/libphp5.so $RPM_BUILD_ROOT%{_libdir}/httpd/modules/libphp5-zts.so
 %endif
 
@@ -812,7 +812,7 @@ webserver restart
 %{_mandir}/man1/php.1*
 %doc sapi/cgi/README* sapi/cli/README
 
-%if 0%{?rhel} > 5
+%if 0%{?rhel} >= 5
 %files zts
 %defattr(-,root,root)
 %{_libdir}/httpd/modules/libphp5-zts.so
@@ -857,6 +857,9 @@ webserver restart
 %files enchant -f files.enchant
 
 %changelog
+* Wed Jan 5 2011 Santi Saez <santi@woop.es> 5.3.4-3
+- Update to 5.3.4
+
 * Tue Aug 17 2010 Joe Orton <jorton@redhat.com> - 5.3.2-6
 - add security fixes for CVE-2010-1866, CVE-2010-2094, CVE-2010-1917,
   CVE-2010-2531, MOPS-2010-060 (#624469)
