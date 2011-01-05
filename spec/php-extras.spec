@@ -25,8 +25,8 @@
 Name: php-extras
 Summary: Additional PHP modules from the standard PHP distribution
 #Version: %(php-config --version 2>/dev/null || echo 0)
-Version: 5.3.3
-Release: 1
+Version: 5.3.4
+Release: 3
 Group: Development/Languages
 License: The PHP License
 URL: http://www.php.net/
