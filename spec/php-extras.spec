@@ -25,8 +25,8 @@
 Name: php-extras
 Summary: Additional PHP modules from the standard PHP distribution
 #Version: %(php-config --version 2>/dev/null || echo 0)
-Version: 5.3.4
-Release: 3
+Version: 5.3.5
+Release: 1
 Group: Development/Languages
 License: The PHP License
 URL: http://www.php.net/
@@ -266,6 +266,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jan 11 2001 Santi Saez <santi@woop.es> 5.3.5-1
+- Update to 5.3.5
+
 * Tue May 12 2009 Dmitry Butskoy <Dmitry@Butskoy.name> - 5.1.6-5
 - add pdo_dblib module for php-mssql
 - add php-interbase support (both interbase and pdo_firebird modules)

@@ -13,8 +13,8 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: php
-Version: 5.3.4
-Release: 3
+Version: 5.3.5
+Release: 1
 License: PHP
 Group: Development/Languages
 URL: http://www.php.net/
@@ -857,6 +857,9 @@ webserver restart
 %files enchant -f files.enchant
 
 %changelog
+* Tue Jan 11 2001 Santi Saez <santi@woop.es> 5.3.5-1
+- Update to 5.3.5
+
 * Wed Jan 5 2011 Santi Saez <santi@woop.es> 5.3.4-3
 - Update to 5.3.4
 
