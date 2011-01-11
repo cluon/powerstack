@@ -1,7 +1,7 @@
 %define contentdir /var/www
 %define suexec_caller apache
 %define mmn 20051115
-%define vstring Red Hat
+%define vstring PowerStack
 %define mpms worker event
 
 Summary: Apache HTTP Server
@@ -372,6 +372,31 @@ exit 0
 %post
 # Register the httpd service
 /sbin/chkconfig --add httpd
+
+# Move Apache PID file to the new location
+if [ -e /var/run/httpd.pid ] ;
+	then mv /var/run/httpd.pid /var/run/httpd/httpd.pid
+fi
+
+function webserver() {
+	ACTION=$1
+
+	case $ACTION in
+		restart)
+			# If httpd.disable_restart file doesn't exist restart Apache gracefully
+			if [ ! -e /etc/powerstack/httpd.disable_restart ] ; then
+				if `/bin/rpm -q --quiet httpd` ; then
+					if `/usr/bin/pgrep -n httpd > /dev/null` ; then
+						echo -en 'Restarting Apache gracefully: '
+						/etc/init.d/httpd configtest && /etc/init.d/httpd restart
+					fi
+				fi
+			fi
+			;;
+	esac
+}
+
+webserver restart
 
 %preun
 if [ $1 = 0 ]; then
