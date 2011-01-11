@@ -1,9 +1,14 @@
-%home		%(echo $HOME)
-%_topdir	%{home}/powerstack
-%vendor		PowerStack
-%packager	Santi Saez <santi@woop.es>
 
-# Conditional build stuff
+%home			%(echo $HOME)
+%_topdir		%{home}/powerstack
+%vendor			PowerStack
+%packager		Santi Saez <santi@woop.es>
+
+# Helper variable that defines CentOS release number, http://goo.gl/dkGUg
+# This macro is based on Johnny Hughes's freenx.spec, from "extras" repository.
+%rhel			%(/bin/rpm -q -f /etc/redhat-release --qf '%{VERSION}')
+
+# Conditional build stuff (not available in RPM v4.3, CentOS-4)
 %with()			%{expand:%%{?with_%{1}:1}%%{!?with_%{1}:0}}
 %without()		%{expand:%%{?with_%{1}:0}%%{!?with_%{1}:1}}
 %bcond_with()		%{expand:%%{?_with_%{1}:%%global with_%{1} 1}}
