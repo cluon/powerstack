@@ -380,6 +380,11 @@ rm -f ${RPM_BUILD_ROOT}%{_datadir}/mysql/magic
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+
+%pre
+# 'set-variable' directive is not available in MySQL 5.5
+/bin/sed -i-powerstack 's/set-variable=//i' /etc/my.cnf
+
 %pre server
 /usr/sbin/groupadd -g 27 -o -r mysql >/dev/null 2>&1 || :
 /usr/sbin/useradd -M -N -g mysql -o -r -d /var/lib/mysql -s /bin/bash \
@@ -394,6 +399,10 @@ if [ $1 = 1 ]; then
 fi
 /bin/chmod 0755 /var/lib/mysql
 /bin/touch /var/log/mysqld.log
+
+# Restart MySQL service and upgrade schema to v5.5
+/etc/init.d/mysqld restart &> /dev/null 
+/usr/bin/mysql_upgrade &> /dev/null
 
 %preun server
 if [ $1 = 0 ]; then
