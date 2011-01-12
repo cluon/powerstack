@@ -768,8 +768,8 @@ function webserver() {
                         if [ ! -e /etc/powerstack/php.disable_webserver_restart ] ; then
                                 if `/bin/rpm -q --quiet httpd` ; then
                                         if `/usr/bin/pgrep -n httpd > /dev/null` ; then
-                                                echo -en 'Restarting Apache gracefully: '
-                                                /etc/init.d/httpd configtest && /etc/init.d/httpd graceful
+                                                #echo -en 'Restarting Apache gracefully: '
+                                                (/etc/init.d/httpd configtest && /etc/init.d/httpd graceful) &> /dev/null
                                         fi
                                 fi
                         fi
@@ -857,9 +857,6 @@ webserver restart
 %files enchant -f files.enchant
 
 %changelog
-* Tue Jan 11 2001 Santi Saez <santi@woop.es> 5.3.5-1
-- Update to 5.3.5
-
 * Wed Jan 5 2011 Santi Saez <santi@woop.es> 5.3.4-3
 - Update to 5.3.4
 

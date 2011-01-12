@@ -387,8 +387,8 @@ function webserver() {
 			if [ ! -e /etc/powerstack/httpd.disable_restart ] ; then
 				if `/bin/rpm -q --quiet httpd` ; then
 					if `/usr/bin/pgrep -n httpd > /dev/null` ; then
-						echo -en 'Restarting Apache gracefully: '
-						/etc/init.d/httpd configtest && /etc/init.d/httpd restart
+						#echo -en 'Restarting Apache gracefully: '
+						(/etc/init.d/httpd configtest && /etc/init.d/httpd restart) &> /dev/null
 					fi
 				fi
 			fi
