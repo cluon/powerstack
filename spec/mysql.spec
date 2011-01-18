@@ -250,7 +250,11 @@ cmake . -DBUILD_CONFIG=mysql_release \
 	-DENABLE_DTRACE=0 \
 	-DWITH_EMBEDDED_SERVER=ON \
 	-DWITH_READLINE=ON \
+%if 0%{?rhel} >= 5
 	-DWITH_SSL=system \
+%else
+	-DWITH_SSL=bundled \
+%endif
 	-DWITH_ZLIB=system
 
 gcc $CFLAGS $LDFLAGS -o scriptstub "-DLIBDIR=\"%{_libdir}/mysql\"" %{SOURCE4}
@@ -382,8 +386,17 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %pre
-# 'set-variable' directive is not available in MySQL 5.5
-/bin/sed -i-powerstack 's/set-variable=//i' /etc/my.cnf
+
+# Obsolete constructs in MySQL 5.5.3, update to alternatives
+# http://dev.mysql.com/doc/refman/5.5/en/news-5-5-3.html
+/bin/sed -i-powerstack 's/default-character-set/character-set-server/i' /etc/my.cnf
+/bin/sed -i-powerstack 's/default-collation/collation-server/i' /etc/my.cnf
+/bin/sed -i-powerstack 's/^[ \t]*set-variable[ \t]*\=//i' /etc/my.cnf
+
+# Obsolete constructs not available in MySQL 5.5, comment out
+/bin/sed -i-powerstack '/skip-merge/ s/^/#/' /etc/my.cnf
+/bin/sed -i-powerstack '/skip-bdb/ s/^/#/' /etc/my.cnf
+/bin/sed -i-powerstack '/bdb_/ s/^/#/' /etc/my.cnf
 
 %pre server
 /usr/sbin/groupadd -g 27 -o -r mysql >/dev/null 2>&1 || :
