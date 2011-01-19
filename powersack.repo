@@ -1,0 +1,5 @@
+[powerstack]
+name=PowerStack for CentOS $releasever
+baseurl=http://download.powerstack.org/$releasever/$basearch/
+enabled=1
+gpgcheck=0
