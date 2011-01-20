@@ -387,16 +387,16 @@ rm -rf $RPM_BUILD_ROOT
 
 %pre
 
-# Obsolete constructs in MySQL 5.5.3, update to alternatives
+# Comment obsolete constructs in MySQL >= 5.5.3 or update to alternatives
 # http://dev.mysql.com/doc/refman/5.5/en/news-5-5-3.html
-/bin/sed -i-powerstack 's/default-character-set/character-set-server/i' /etc/my.cnf
-/bin/sed -i-powerstack 's/default-collation/collation-server/i' /etc/my.cnf
-/bin/sed -i-powerstack 's/^[ \t]*set-variable[ \t]*\=//i' /etc/my.cnf
-
-# Obsolete constructs not available in MySQL 5.5, comment out
-/bin/sed -i-powerstack '/skip-merge/ s/^/#/' /etc/my.cnf
-/bin/sed -i-powerstack '/skip-bdb/ s/^/#/' /etc/my.cnf
-/bin/sed -i-powerstack '/bdb_/ s/^/#/' /etc/my.cnf
+/bin/sed \
+	-e 's/default-character-set/character-set-server/i' \
+	-e 's/default-collation/collation-server/i' \
+	-e 's/^[ \t]*set-variable[ \t]*\=//i' \
+	-e '/^[ \t]*skip-merge/ s/^/#/i' \
+	-e '/^[ \t]*skip-bdb/ s/^/#/i' \
+	-e '/^[ \t]*bdb_/ s/^/#/i' \
+	-i.powerstack /etc/my.cnf
 
 %pre server
 /usr/sbin/groupadd -g 27 -o -r mysql >/dev/null 2>&1 || :
