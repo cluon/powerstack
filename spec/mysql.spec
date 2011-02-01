@@ -400,22 +400,32 @@ rm -rf $RPM_BUILD_ROOT
 
 %pre server
 /usr/sbin/groupadd -g 27 -o -r mysql >/dev/null 2>&1 || :
-/usr/sbin/useradd -M -N -g mysql -o -r -d /var/lib/mysql -s /bin/bash \
+/usr/sbin/useradd -M -g mysql -o -r -d /var/lib/mysql -s /bin/bash \
 	-c "MySQL Server" -u 27 mysql >/dev/null 2>&1 || :
 
 %post libs
 /sbin/ldconfig
 
 %post server
-if [ $1 = 1 ]; then
-    /sbin/chkconfig --add mysqld
-fi
+
 /bin/chmod 0755 /var/lib/mysql
+/bin/chown mysql:mysql /var/run/mysqld
 /bin/touch /var/log/mysqld.log
 
-# Restart MySQL service and upgrade schema to v5.5
-/etc/init.d/mysqld restart &> /dev/null 
-/usr/bin/mysql_upgrade &> /dev/null
+# Install
+if [ $1 = 1 ]; then
+	/sbin/chkconfig --add mysqld
+
+# Upgrade
+elif [ $1 = 2 ]; then
+	# Restart MySQL
+	/etc/init.d/mysqld restart &> /dev/null
+	
+	# Upgrade MySQL schema
+	if [ -e /root/.my.cnf ] ; then
+		/usr/bin/mysql_upgrade &> /dev/null
+	fi
+fi
 
 %preun server
 if [ $1 = 0 ]; then
