@@ -9,16 +9,27 @@
 
 Summary: PHP Extension and Application Repository framework
 Name: php-pear
-Version: 1.9.0
-Release: 2%{?dist}
+
+%if 0%{?rhel} >= 5
+Version: 1.9.1
+Release: 1
+BuildArch: noarch
+%global package_version %{version}
+%else
+Version: 5.3.5
+Release: 1
+%global package_version 1.9.1
+%endif
+
 Epoch: 1
+
 # PEAR, Archive_Tar, XML_Util are BSD
 # XML-RPC, Console_Getopt are PHP
 # Structures_Graph is LGPL
 License: BSD and PHP and LGPLv2+
 Group: Development/Languages
 URL: http://pear.php.net/package/PEAR
-Source0: http://download.pear.php.net/package/PEAR-%{version}.tgz
+Source0: http://download.pear.php.net/package/PEAR-%{package_version}.tgz
 # wget http://cvs.php.net/viewvc.cgi/pear-core/install-pear.php?revision=1.39 -O install-pear.php
 Source1: install-pear.php
 Source2: relocate.php
@@ -35,12 +46,11 @@ Source22: http://pear.php.net/get/Console_Getopt-%{getoptver}.tgz
 Source23: http://pear.php.net/get/Structures_Graph-%{structver}.tgz
 Source24: http://pear.php.net/get/XML_Util-%{xmlutil}.tgz
 
-BuildArch: noarch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: php-cli >= 5.1.0-1, php-xml, gnupg
 Provides: php-pear(Console_Getopt) = %{getoptver}
 Provides: php-pear(Archive_Tar) = %{arctarver}
-Provides: php-pear(PEAR) = %{version}
+Provides: php-pear(PEAR) = %{package_version}
 Provides: php-pear(Structures_Graph) = %{structver}
 Provides: php-pear(XML_RPC) = %{xmlrpcver}
 Provides: php-pear(XML_Util) = %{xmlutil}
