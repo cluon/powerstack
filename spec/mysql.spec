@@ -416,14 +416,21 @@ rm -rf $RPM_BUILD_ROOT
 if [ $1 = 1 ]; then
 	/sbin/chkconfig --add mysqld
 
+	# FIXME! mysql_upgrade should not be executed after a fresh MySQL installation
+	if `/usr/bin/mysql -e 'SELECT VERSION()' mysql &> /dev/null` ; then
+		/usr/bin/mysql_upgrade &> /dev/null
+	fi
+
 # Upgrade
 elif [ $1 = 2 ]; then
 	# Restart MySQL
 	/etc/init.d/mysqld restart &> /dev/null
 	
 	# Upgrade MySQL schema
-	if [ -e /root/.my.cnf ] ; then
+	if `/usr/bin/mysql -e 'SELECT VERSION()' mysql &> /dev/null` ; then
 		/usr/bin/mysql_upgrade &> /dev/null
+	else
+		echo 'WARNING! You should run mysql_upgrade after a MySQL update'
 	fi
 fi
 
@@ -626,6 +633,13 @@ fi
 %{_mandir}/man1/mysql_client_test.1*
 
 %changelog
+* Thu Feb 3 2011 Santi Saez <santi@woop.es> - 5.5.8-1
+- Backport from RHEL-6 (mysql-5.1.47-4.el6.src.rpm) and updated to MySQL v5.5.8
+- Some cmake build arguments are based on Remi Collet's mysql-dev.spec
+- Restart MySQL + upgrade schema to v5.5 after updating RPM
+- Update or comment out obsolete constructs in MySQL >= 5.5.3
+- Remove -N flag from useradd, it's not supported in CentOS-{4,5}
+
 * Thu Jul 15 2010 Tom Lane <tgl@redhat.com> 5.1.47-4
 - Add backported patch for CVE-2010-2008 (upstream bug 53804)
 Resolves: #614215
