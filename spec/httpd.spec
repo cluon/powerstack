@@ -91,7 +91,7 @@ Group: Documentation
 Summary: Documentation for the Apache HTTP server
 Requires: httpd = %{version}-%{release}
 Obsoletes: secureweb-manual, apache-manual
-BuildArch: noarch
+#BuildArch: noarch
 
 %description manual
 The httpd-manual package contains the complete manual and
@@ -539,7 +539,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Wed Jan 5 2011 Santi Saez <santi@woop.es> 2.2.17-1
-- Backport from RHEL-6 (httpd-2.2.15-5.el6.src.rpm) and updated to Apache v2.2.17
+- Backport from RHEL-6 (httpd-2.2.15-5.el6.src.rpm) + updated to Apache v2.2.17
+- Fixed issue with Apache PID file and added code to restart after RPM upgrade
+- Redirect output + errors to /dev/null when restarting Apache 
+- Remove 'BuildArch: noarch' from -manual package
 
 * Fri Aug 13 2010 Joe Orton <jorton@redhat.com> - 2.2.15-5
 - add security fix for CVE-2010-1452 (#618193)
