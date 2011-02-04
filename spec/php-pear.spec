@@ -177,6 +177,10 @@ rm new-pear.conf
 
 
 %changelog
+* Fri Feb 4 2011 Santi Saez <santi@woop.es> - 1.9.1-1
+- RHEL-6 backport and updated to v1.9.1
+- Remove BuildArch in RHEL-4
+
 * Tue Jun 22 2010 Joe Orton <jorton@redhat.com> - 1:1.9.0-2
 - update to XML_RPC 1.5.3 (#606280)
 - bundle LICENSE files per Fedora (Remi Collet)
