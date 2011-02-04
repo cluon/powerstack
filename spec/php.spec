@@ -857,6 +857,11 @@ webserver restart
 %files enchant -f files.enchant
 
 %changelog
+* Fri Feb 4 2011 Santi Saez <santi@woop.es> - 5.3.5-1
+- RHEL-6 backport and updated to 5.3.5
+- CentOS-4 support (without ZTS and libXpm in bundled GD library + CFLAGS fix)
+- Redirect output+errors to /dev/null when restarting Apache 
+
 * Wed Jan 5 2011 Santi Saez <santi@woop.es> 5.3.4-3
 - Update to 5.3.4
 
