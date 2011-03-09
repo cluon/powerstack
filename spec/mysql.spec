@@ -1,5 +1,5 @@
 Name: mysql
-Version: 5.5.8
+Version: 5.5.9
 Release: 1
 Summary: MySQL client programs and shared libraries
 Group: Applications/Databases
@@ -633,6 +633,9 @@ fi
 %{_mandir}/man1/mysql_client_test.1*
 
 %changelog
+* Tue Mar 8 2011 Santi Saez <santi@woop.es> - 5.5.9-1
+- Updated to MySQL v5.5.9
+
 * Thu Feb 3 2011 Santi Saez <santi@woop.es> - 5.5.8-1
 - Backport from RHEL-6 (mysql-5.1.47-4.el6.src.rpm) and updated to MySQL v5.5.8
 - Some cmake build arguments are based on Remi Collet's mysql-dev.spec
