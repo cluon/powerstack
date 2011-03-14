@@ -7,7 +7,7 @@
 Summary: Apache HTTP Server
 Name: httpd
 Version: 2.2.17
-Release: 1
+Release: 2
 URL: http://httpd.apache.org/
 Source0: http://www.apache.org/dist/httpd/httpd-%{version}.tar.bz2
 Source1: index.html
@@ -54,7 +54,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires: autoconf, perl, pkgconfig, findutils
 BuildRequires: zlib-devel, libselinux-devel
 BuildRequires: apr-devel >= 1.2.0, apr-util-devel >= 1.2.0, pcre-devel >= 5.0
-Requires: initscripts >= 8.36, /etc/mime.types, system-logos >= 7.92.1-1
+Requires: initscripts >= 8.36, /etc/mime.types
 Obsoletes: httpd-suexec
 Requires(pre): /usr/sbin/useradd
 Requires(post): chkconfig
@@ -223,6 +223,8 @@ mpmbuild prefork \
 	--enable-proxy \
         --enable-cache \
         --enable-disk-cache \
+	--enable-mem-cache \
+	--enable-file-cache \
         --enable-ldap --enable-authnz-ldap \
         --enable-cgid \
         --enable-authn-anon --enable-authn-alias \
@@ -538,7 +540,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/httpd/build/*.sh
 
 %changelog
-* Wed Jan 5 2011 Santi Saez <santi@woop.es> 2.2.17-1
+* Mon Mar 14 2011 Santi Saez <santi@woop.es> - 2.2.17-2
+- mod_mem_cache and mod_file_cache enabled
+- Drop system-logos dependency on httpd
+- Update "Welcome" page to include a reference to PowerStack
+
+* Wed Jan 5 2011 Santi Saez <santi@woop.es> - 2.2.17-1
 - Backport from RHEL-6 (httpd-2.2.15-5.el6.src.rpm) + updated to Apache v2.2.17
 - Fixed issue with Apache PID file and added code to restart after RPM upgrade
 - Redirect output + errors to /dev/null when restarting Apache 
