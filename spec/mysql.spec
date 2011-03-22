@@ -1,5 +1,5 @@
 Name: mysql
-Version: 5.5.9
+Version: 5.5.10
 Release: 1
 Summary: MySQL client programs and shared libraries
 Group: Applications/Databases
@@ -633,6 +633,9 @@ fi
 %{_mandir}/man1/mysql_client_test.1*
 
 %changelog
+* Tue Mar 22 2011 Santi Saez <santi@woop.es> - 5.5.10-1
+- Updated to MySQL v5.5.10
+
 * Tue Mar 8 2011 Santi Saez <santi@woop.es> - 5.5.9-1
 - Updated to MySQL v5.5.9
 
