@@ -12,11 +12,11 @@ Name: php-pear
 
 %if 0%{?rhel} >= 5
 Version: 1.9.1
-Release: 1
+Release: 2
 BuildArch: noarch
 %global package_version %{version}
 %else
-Version: 5.3.5
+Version: 5.3.6
 Release: 1
 %global package_version 1.9.1
 %endif
@@ -177,7 +177,10 @@ rm new-pear.conf
 
 
 %changelog
-* Fri Feb 4 2011 Santi Saez <santi@woop.es> - 1.9.1-1
+* Wed Mar 30 2011 - Santi Saez <santi@woop.es> - 1.9.1-2
+- Update to PHP 5.3.6
+
+* Fri Feb 4 2011 Santi Saez - <santi@woop.es> - 1.9.1-1
 - RHEL-6 backport and updated to v1.9.1
 - Remove BuildArch in RHEL-4
 
