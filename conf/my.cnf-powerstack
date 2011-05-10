@@ -1,0 +1,187 @@
+[mysqld]
+
+
+# Default port, socket, datadir and user for MySQL server
+port = 3306
+socket = /var/lib/mysql/mysql.sock
+datadir = /var/lib/mysql
+user = mysql
+
+
+# Disable external locking (system locking) in MySQL, affects only MyISAM
+# http://dev.mysql.com/doc/refman/5.5/en/external-locking.html
+skip-external-locking
+
+
+# Disable 'INSERT DELAYED' statements in MySQL
+# http://dev.mysql.com/doc/refman/5.5/en/insert-delayed.html
+max_delayed_threads = 0
+
+
+# Number of seconds MySQL server waits for a connect packet before responding
+# with 'bad handshake' (default value is 10 seconds)
+connect_timeout = 15
+
+
+# Number of second MySQL server waits for activity on a *NONINTERACTIVE* conn
+wait_timeout = 60
+
+
+# Number of seconds MySQL server waits for activity on an *INTERACTIVE* conn
+interactive_timeout = 60
+
+
+# Default character set and collation for MySQL
+# http://dev.mysql.com/doc/refman/5.5/en/charset-server.html
+#character-set-server = latin1
+#collation-server = latin1_spanish_ci
+
+
+# Force MySQL to generate short (pre-4.1) password hashes for new passwords,
+# useful for compatibility when the server must support clients < MySQL 4.1
+# http://dev.mysql.com/doc/refman/5.5/en/old-client.html
+#old_passwords = 1
+
+
+# Do not resolve host names when checking client connections, use only IP
+# http://dev.mysql.com/doc/refman/5.5/en/dns.html
+#skip-name-resolve
+
+
+
+
+
+
+#==============================================================================
+# Log
+#==============================================================================
+
+
+# http://dev.mysql.com/doc/refman/5.5/en/server-logs.html
+# http://dev.mysql.com/doc/refman/5.5/en/query-log.html
+#general_log = 1
+#general_log_file = /var/log/mysqld.log
+
+
+# Disable produce additional warning messages to MySQL error log
+# http://dev.mysql.com/doc/refman/5.5/en/error-log.html
+log_error = /var/log/mysqld.log
+log_warnings = 0
+
+
+# Slow Query Log
+#long_query_time = 1
+#slow_query_log=1
+#slow_query_log_file=/var/log/mysqld-slow.log
+#log-queries-not-using-indexes
+
+
+
+
+
+
+#==============================================================================
+# Security
+#==============================================================================
+
+
+# Disable 'LOAD DATA LOCAL' feature on MySQL
+# http://dev.mysql.com/doc/refman/5.5/en/load-data-local.html
+local_infile = 0
+
+
+# Disable symbolic link support on MySQL
+# http://dev.mysql.com/doc/refman/5.5/en/symbolic-links.html
+skip-symbolic-links
+
+
+# Maximum permitted number of simultaneous client connections for MySQL
+# http://dev.mysql.com/doc/refman/5.5/en/too-many-connections.html
+max_connections = 200
+max_user_connections = 170
+back_log = 50
+
+
+# Do not permit SELECT statements that probably need to examine more than
+# max_join_size rows, or row combinations or that are likely to do more than
+# max_join_size disk seeks. Setting this variable to a value other than DEFAULT
+# resets the value of sql_big_selects to 0
+max_join_size = 256M
+
+
+# The maximum size of one packet or any generated/intermediate string in MySQL
+# http://dev.mysql.com/doc/refman/5.5/en/packet-too-large.html
+max_allowed_packet = 16M
+
+
+# Maximum number of temporary tables a client can keep open at the same time.
+max_tmp_tables = 64
+
+
+
+
+
+
+#==============================================================================
+# Performance/Tuning
+#==============================================================================
+
+
+# Controls the amount of memory allocated for MyISAM key cache/buffer size
+# http://dev.mysql.com/doc/refman/5.5/en/myisam-key-cache.html
+key_buffer_size = 64M
+
+
+# Enable MySQL query cache
+# http://dev.mysql.com/doc/refman/5.5/en/query-cache-configuration.html
+query_cache_type = 1
+query_cache_size = 64M
+query_cache_limit = 1M
+
+
+# Number of open tables for all MySQL threads
+# http://dev.mysql.com/doc/refman/5.5/en/table-cache.html
+table_open_cache = 4096
+
+
+# How many threads the MySQL server should cache for reuse
+thread_cache_size = 64
+
+
+# Maximum size of internal in-memory temporary table in MySQL
+# http://dev.mysql.com/doc/refman/5.5/en/internal-temporary-tables.html
+tmp_table_size = 64M
+max_heap_table_size = 64M
+
+
+# Changes the number of file descriptors available to MySQL
+open_files_limit = 8192
+
+
+# Stack size for each thread. The default of 192KB (256KB for 64-bit systems)
+# is large enough for normal operation. If the thread stack size is too small,
+# it limits the complexity of the SQL statements that the server can handle, 
+# the recursion depth of stored procedures, and other memory-consuming actions
+thread_stack = 256K
+
+
+
+
+
+
+#==============================================================================
+# InnoDB
+#==============================================================================
+
+
+# Store each InnoDB table and its indexes in its own file, by default InnoDB
+# tables and indexes are stored in system tablespace.
+# (Suggested by Jordi Prats from systemadmin.es)
+# http://dev.mysql.com/doc/refman/5.5/en/innodb-multiple-tablespaces.html
+innodb_file_per_table
+
+
+# Use O_DIRECT to open the data files, by default, InnoDB uses fsync()
+# (Suggested by Jordi Prats from systemadmin.es)
+# http://dev.mysql.com/doc/refman/5.5/en/innodb-parameters.html 
+#innodb_flush_method=O_DIRECT 
