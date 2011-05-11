@@ -33,8 +33,9 @@ interactive_timeout = 60
 
 # Default character set and collation for MySQL
 # http://dev.mysql.com/doc/refman/5.5/en/charset-server.html
-#character-set-server = latin1
-#collation-server = latin1_spanish_ci
+# (Suggested by Asier Marques from blackslot.com)
+#character-set-server = utf8
+#collation-server = utf8_general_ci
 
 
 # Force MySQL to generate short (pre-4.1) password hashes for new passwords,
