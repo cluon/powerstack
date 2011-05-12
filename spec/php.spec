@@ -13,7 +13,7 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: php
-Version: 5.3.5
+Version: 5.3.6
 Release: 1
 License: PHP
 Group: Development/Languages
@@ -56,6 +56,9 @@ Patch203: php-5.3.2-CVE-2010-2531.patch
 Patch204: php-5.3.2-CVE-2010-1866.patch
 Patch205: php-5.3.2-MOPS-2010-060.patch
 Patch206: php-5.3.2-CVE-2010-2094.patch
+
+# PowerStack
+Patch300: php-5.3.5-cve-2011-1092.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -416,6 +419,9 @@ support for using the enchant library to PHP.
 #%patch204 -p1 -b .cve1866
 #%patch205 -p1 -b .mops060
 #%patch206 -p1 -b .cve2094
+
+# PowerStack
+#%patch300 -p1 -b .cve1092
 
 # Prevent %%doc confusion over LICENSE files
 cp Zend/LICENSE Zend/ZEND_LICENSE
@@ -857,6 +863,12 @@ webserver restart
 %files enchant -f files.enchant
 
 %changelog
+* Tue Mar 22 2011 Santi Saez <santi@woop.es> - 5.3.6-1
+- Update to 5.3.6
+
+* Tue Mar 15 2011 Santi Saez <santi@woop.es> - 5.3.5-2
+- Add security fix for CVE-2011-1092
+
 * Fri Feb 4 2011 Santi Saez <santi@woop.es> - 5.3.5-1
 - RHEL-6 backport and updated to 5.3.5
 - CentOS-4 support (without ZTS and libXpm in bundled GD library + CFLAGS fix)

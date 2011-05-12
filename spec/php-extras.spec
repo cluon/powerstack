@@ -25,7 +25,7 @@
 Name: php-extras
 Summary: Additional PHP modules from the standard PHP distribution
 #Version: %(php-config --version 2>/dev/null || echo 0)
-Version: 5.3.5
+Version: 5.3.6
 Release: 1
 Group: Development/Languages
 License: The PHP License
@@ -133,6 +133,7 @@ CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing -Wno-pointer-sign"
         CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
 %endif
 export CFLAGS
+
 
 for mod in %{list}
 do
@@ -269,6 +270,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Mar 28 2011 Santi Saez <santi@woop.es> - 5.3.6-1
+- Update to PHP 5.3.6
+
 * Tue May 12 2009 Dmitry Butskoy <Dmitry@Butskoy.name> - 5.1.6-5
 - add pdo_dblib module for php-mssql
 - add php-interbase support (both interbase and pdo_firebird modules)
