@@ -1,5 +1,5 @@
 Name: mysql
-Version: 5.5.9
+Version: 5.5.12
 Release: 1
 Summary: MySQL client programs and shared libraries
 Group: Applications/Databases
@@ -26,6 +26,10 @@ Source4: scriptstub.c
 Source5: my_config.h
 Source6: README.mysql-docs
 Source9: mysql-embedded-check.c
+
+# PowerStack
+Source201: my.cnf-powerstack
+
 # Working around perl dependency checking bug in rpm FTTB. Remove later.
 Source999: filter-requires-mysql.sh
 
@@ -328,7 +332,7 @@ mkdir -p $RPM_BUILD_ROOT/etc/rc.d/init.d
 mkdir -p $RPM_BUILD_ROOT/var/run/mysqld
 install -m 0755 -d $RPM_BUILD_ROOT/var/lib/mysql
 install -m 0755 %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/mysqld
-install -m 0644 %{SOURCE3} $RPM_BUILD_ROOT/etc/my.cnf
+install -m 0644 %{SOURCE201} $RPM_BUILD_ROOT/etc/my.cnf
 #mv $RPM_BUILD_ROOT/usr/sql-bench $RPM_BUILD_ROOT%{_datadir}/sql-bench
 #mv $RPM_BUILD_ROOT/usr/mysql-test $RPM_BUILD_ROOT%{_datadir}/mysql-test
 # 5.1.32 forgets to install the mysql-test README file
@@ -412,26 +416,54 @@ rm -rf $RPM_BUILD_ROOT
 /bin/chown mysql:mysql /var/run/mysqld
 /bin/touch /var/log/mysqld.log
 
+# Upgrade MySQL schema
+function powerstack_mysql_upgrade() {
+
+	# Check access to MySQL
+	if `/usr/bin/mysql -e 'SELECT VERSION()' mysql &> /dev/null` ; then
+		/usr/bin/mysql_upgrade &> /dev/null
+	else
+		# If Plesk is installed obtain MySQL password from '.psa.shadow' file
+		if `/bin/rpm -q --quiet psa` ; then
+			/usr/bin/mysql_upgrade -uadmin -p`cat /etc/psa/.psa.shadow` &> /dev/null
+
+		# Unable to access MySQL
+		else
+			echo 'WARNING! You should run mysql_upgrade after a MySQL update'
+		fi
+	fi
+
+}
+
+# Restart MySQL
+function powerstack_mysql_restart() {
+
+	# If mysql.disable_restart file doesn't exist restart MySQL
+	if [ ! -e /etc/powerstack/mysql.disable_restart ] ; then
+		if `/usr/bin/pgrep -n mysqld > /dev/null` ; then
+			/etc/init.d/mysqld restart &> /dev/null
+		fi
+
+	# FIX!
+	else
+		return 0
+	fi
+}
+
 # Install
 if [ $1 = 1 ]; then
 	/sbin/chkconfig --add mysqld
 
-	# FIXME! mysql_upgrade should not be executed after a fresh MySQL installation
-	if `/usr/bin/mysql -e 'SELECT VERSION()' mysql &> /dev/null` ; then
-		/usr/bin/mysql_upgrade &> /dev/null
-	fi
+	# Upgrade MySQL schema
+	powerstack_mysql_upgrade
 
 # Upgrade
 elif [ $1 = 2 ]; then
 	# Restart MySQL
-	/etc/init.d/mysqld restart &> /dev/null
+	powerstack_mysql_restart
 	
 	# Upgrade MySQL schema
-	if `/usr/bin/mysql -e 'SELECT VERSION()' mysql &> /dev/null` ; then
-		/usr/bin/mysql_upgrade &> /dev/null
-	else
-		echo 'WARNING! You should run mysql_upgrade after a MySQL update'
-	fi
+	powerstack_mysql_upgrade
 fi
 
 %preun server
@@ -633,6 +665,13 @@ fi
 %{_mandir}/man1/mysql_client_test.1*
 
 %changelog
+* Thu May 12 2011 Santi Saez <santi@woop.es> - 5.5.12-1
+- Updated to MySQL 5.5.12
+- Add optimized + secure my.cnf config file for MySQL from PowerStack
+
+* Tue Mar 22 2011 Santi Saez <santi@woop.es> - 5.5.10-1
+- Updated to MySQL 5.5.10
+
 * Tue Mar 8 2011 Santi Saez <santi@woop.es> - 5.5.9-1
 - Updated to MySQL v5.5.9
 
