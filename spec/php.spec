@@ -14,7 +14,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name: php
 Version: 5.3.6
-Release: 1
+Release: 2
 License: PHP
 Group: Development/Languages
 URL: http://www.php.net/
@@ -580,7 +580,11 @@ build --enable-force-cgi-redirect \
       --with-xmlrpc=shared \
       --with-ldap=shared --with-ldap-sasl \
       --with-mysql=shared,%{_prefix} \
+%if 0%{?rhel} >= 5
       --with-mysqli=shared,%{_bindir}/mysql_config \
+%else
+      --with-mysqli=shared,mysqlnd \
+%endif
       --enable-dom=shared \
       --with-pgsql=shared \
       --enable-wddx=shared \
@@ -863,6 +867,10 @@ webserver restart
 %files enchant -f files.enchant
 
 %changelog
+* Thu May 12 2011 Santi Saez <santi@woop.es> - 5.3.6-2
+- On RHEL-4 build MySQLi with mysqlnd support
+- Build with MySQL 5.5.12
+
 * Tue Mar 22 2011 Santi Saez <santi@woop.es> - 5.3.6-1
 - Update to 5.3.6
 
