@@ -1,9 +1,5 @@
 Name: mysql
-<<<<<<< HEAD:spec/mysql.spec
 Version: 5.5.12
-=======
-Version: 5.5.10
->>>>>>> 244294f844004a5155cd8369a657b54af81a0159:spec/mysql.spec
 Release: 1
 Summary: MySQL client programs and shared libraries
 Group: Applications/Databases
@@ -669,19 +665,12 @@ fi
 %{_mandir}/man1/mysql_client_test.1*
 
 %changelog
-<<<<<<< HEAD:spec/mysql.spec
 * Thu May 12 2011 Santi Saez <santi@woop.es> - 5.5.12-1
 - Updated to MySQL 5.5.12
 - Add optimized + secure my.cnf config file for MySQL from PowerStack
 
-=======
->>>>>>> 244294f844004a5155cd8369a657b54af81a0159:spec/mysql.spec
 * Tue Mar 22 2011 Santi Saez <santi@woop.es> - 5.5.10-1
-<<<<<<< HEAD:spec/mysql.spec
 - Updated to MySQL 5.5.10
-=======
-- Updated to MySQL v5.5.10
->>>>>>> 244294f844004a5155cd8369a657b54af81a0159:spec/mysql.spec
 
 * Tue Mar 8 2011 Santi Saez <santi@woop.es> - 5.5.9-1
 - Updated to MySQL v5.5.9
