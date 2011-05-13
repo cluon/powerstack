@@ -419,20 +419,25 @@ rm -rf $RPM_BUILD_ROOT
 # Upgrade MySQL schema
 function powerstack_mysql_upgrade() {
 
-	# Check access to MySQL
-	if `/usr/bin/mysql -e 'SELECT VERSION()' mysql &> /dev/null` ; then
-		/usr/bin/mysql_upgrade &> /dev/null
-	else
-		# If Plesk is installed obtain MySQL password from '.psa.shadow' file
-		if `/bin/rpm -q --quiet psa` ; then
-			/usr/bin/mysql_upgrade -uadmin -p`cat /etc/psa/.psa.shadow` &> /dev/null
+	# If mysql.disable_restart file doesn't exist upgrade MySQL schema
+	if [ ! -e /etc/powerstack/mysql.disable_restart ] ; then
 
-		# Unable to access MySQL
+		# Check access to MySQL
+		if `/usr/bin/mysql -e 'SELECT VERSION()' mysql &> /dev/null` ; then
+			/usr/bin/mysql_upgrade &> /dev/null
 		else
-			echo 'WARNING! You should run mysql_upgrade after a MySQL update'
+			# If Plesk is installed obtain MySQL password from .psa.shadow file
+			if `/bin/rpm -q --quiet psa` ; then
+				/usr/bin/mysql_upgrade --upgrade-system-tables -uadmin -p`cat /etc/psa/.psa.shadow` &> /dev/null
+
+			# Unable to access MySQL
+			else
+				echo 'WARNING! You should run mysql_upgrade after a MySQL update'
+			fi
 		fi
 	fi
 
+	# FIX return 0 ?
 }
 
 # Restart MySQL
