@@ -26,7 +26,7 @@ Name: php-extras
 Summary: Additional PHP modules from the standard PHP distribution
 #Version: %(php-config --version 2>/dev/null || echo 0)
 Version: 5.3.6
-Release: 1
+Release: 2
 Group: Development/Languages
 License: The PHP License
 URL: http://www.php.net/
@@ -128,11 +128,7 @@ rm -rf ext/{mssql,pdo_dblib,interbase,pdo_firebird,readline,mcrypt}/tests
 
 %build
 
-CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing -Wno-pointer-sign"
-%if 0%{?rhel} < 5
-        CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
-%endif
-export CFLAGS
+export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing -Wno-pointer-sign"
 
 
 for mod in %{list}
@@ -270,6 +266,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon May 16 2011 Santi Saez <santi@woop.es> - 5.3.6-2 
+- Update to build against MySQL 5.5.12
+
 * Mon Mar 28 2011 Santi Saez <santi@woop.es> - 5.3.6-1
 - Update to PHP 5.3.6
 
