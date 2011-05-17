@@ -6,8 +6,8 @@
 
 Summary: Apache HTTP Server
 Name: httpd
-Version: 2.2.17
-Release: 2
+Version: 2.2.18
+Release: 1
 URL: http://httpd.apache.org/
 Source0: http://www.apache.org/dist/httpd/httpd-%{version}.tar.bz2
 Source1: index.html
@@ -146,7 +146,7 @@ Security (TLS) protocols.
 %patch69 -p1 -b .authnoprov
 %patch70 -p1 -b .ssloidval
 %patch71 -p1 -b .davputfail
-%patch72 -p1 -b .expectnoka
+#%patch72 -p1 -b .expectnoka
 
 #%patch200 -p1 -b .cve1452
 
@@ -468,7 +468,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/httpd/logs
 %{_sysconfdir}/httpd/run
 %dir %{_sysconfdir}/httpd/conf
-%config %{_sysconfdir}/httpd/conf/httpd.conf
+%config(noreplace) %{_sysconfdir}/httpd/conf/httpd.conf
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/welcome.conf
 %config(noreplace) %{_sysconfdir}/httpd/conf/magic
 
@@ -540,10 +540,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/httpd/build/*.sh
 
 %changelog
+* Tue May 17 2011 Santi Saez <santi@woop.es> - 2.2.18-1
+- Fix CVE-2011-0419 updating to Apache 2.2.18
+- Add %config(noreplace) flag for httpd.conf
+
 * Mon Mar 14 2011 Santi Saez <santi@woop.es> - 2.2.17-2
 - mod_mem_cache and mod_file_cache enabled
 - Drop system-logos dependency on httpd
-- Update "Welcome" page to include a reference to PowerStack
+- "Welcome" page updated to include a reference to PowerStack
 
 * Wed Jan 5 2011 Santi Saez <santi@woop.es> - 2.2.17-1
 - Backport from RHEL-6 (httpd-2.2.15-5.el6.src.rpm) + updated to Apache v2.2.17
