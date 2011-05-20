@@ -96,7 +96,9 @@ export DESTDIR=%{buildroot}
     --with-http_stub_status_module \
     --with-http_perl_module \
     --with-mail \
+%if 0%{?rhel} >= 5
     --with-file-aio \
+%endif
     --with-mail_ssl_module \
     --with-ipv6 \
     --with-cc-opt="%{optflags} $(pcre-config --cflags)" \
