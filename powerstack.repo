@@ -2,10 +2,12 @@
 name=PowerStack for CentOS $releasever
 baseurl=http://download.powerstack.org/$releasever/$basearch/
 enabled=1
-gpgcheck=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-powerstack
 
 [powerstack-testing]
 name=PowerStack TESTING for CentOS $releasever
 baseurl=http://download.powerstack.org/testing/$releasever/$basearch/
 enabled=0
-gpgcheck=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-powerstack
