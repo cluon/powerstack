@@ -1,8 +1,9 @@
-
 %home			%(echo $HOME)
 %_topdir		%{home}/powerstack
 %vendor			PowerStack
 %packager		Santi Saez <santi@woop.es>
+%_signature		gpg
+%_gpg_name		Santi Saez
 
 # Helper variable that defines CentOS release number, http://goo.gl/dkGUg
 # This macro is based on Johnny Hughes's freenx.spec, from "extras" repository.
