@@ -23,7 +23,9 @@ BuildRequires:      pcre-devel, zlib-devel, openssl-devel, perl(ExtUtils::Embed)
 BuildRequires:      libxslt-devel, GeoIP-devel, gd-devel, gcc
 Requires:           perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 # for aio
+%if 0%{?rhel} >= 5
 Requires:           kernel >= 2.6.18-181
+%endif
 # for /usr/sbin/useradd
 Requires(pre):      shadow-utils
 Requires(post):     chkconfig
