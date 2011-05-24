@@ -541,7 +541,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Tue May 24 2011 Santi Saez <santi@woop.es> - 2.2.19-1
-* Fix CVE-2011-1928 regression updating to Apache 2.2.19
+- Fix CVE-2011-1928 regression updating to Apache 2.2.19
 
 * Tue May 17 2011 Santi Saez <santi@woop.es> - 2.2.18-1
 - Fix CVE-2011-0419 updating to Apache 2.2.18
