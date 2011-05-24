@@ -6,7 +6,7 @@
 
 Summary: Apache HTTP Server
 Name: httpd
-Version: 2.2.18
+Version: 2.2.19
 Release: 1
 URL: http://httpd.apache.org/
 Source0: http://www.apache.org/dist/httpd/httpd-%{version}.tar.bz2
@@ -540,6 +540,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/httpd/build/*.sh
 
 %changelog
+* Tue May 24 2011 Santi Saez <santi@woop.es> - 2.2.19-1
+* Fix CVE-2011-1928 regression updating to Apache 2.2.19
+
 * Tue May 17 2011 Santi Saez <santi@woop.es> - 2.2.18-1
 - Fix CVE-2011-0419 updating to Apache 2.2.18
 - Add %config(noreplace) flag for httpd.conf
