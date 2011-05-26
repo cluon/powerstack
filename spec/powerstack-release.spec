@@ -36,6 +36,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %post
+/bin/rpm -q --quiet gpg-pubkey-7a6ce8ac-4dd677ea || /bin/rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-powerstack || :
 
 
 %postun 
