@@ -1,5 +1,5 @@
 Name: mysql
-Version: 5.5.12
+Version: 5.5.13
 Release: 1
 Summary: MySQL client programs and shared libraries
 Group: Applications/Databases
@@ -670,6 +670,9 @@ fi
 %{_mandir}/man1/mysql_client_test.1*
 
 %changelog
+* Tue Jun 14 2011 Santi Saez <santi@woop.es> - 5.5.13-1
+- Updated to MySQL 5.5.13
+
 * Thu May 12 2011 Santi Saez <santi@woop.es> - 5.5.12-1
 - Updated to MySQL 5.5.12
 - Add optimized + secure my.cnf config file for MySQL from PowerStack
