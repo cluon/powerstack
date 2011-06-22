@@ -182,14 +182,53 @@ thread_stack = 256K
 #==============================================================================
 
 
+# InnoDB performance tuning
+# http://dev.mysql.com/doc/refman/5.5/en/optimizing-innodb.html
+
+
 # Store each InnoDB table and its indexes in its own file, by default InnoDB
 # tables and indexes are stored in system tablespace.
 # (Suggested by Jordi Prats from systemadmin.es)
 # http://dev.mysql.com/doc/refman/5.5/en/innodb-multiple-tablespaces.html
-innodb_file_per_table
+innodb_file_per_table = 1
 
 
-# Use O_DIRECT to open the data files, by default, InnoDB uses fsync()
-# (Suggested by Jordi Prats from systemadmin.es)
-# http://dev.mysql.com/doc/refman/5.5/en/innodb-parameters.html 
-#innodb_flush_method=O_DIRECT 
+# Full ACID support for InnoDB, for each transaction = commit + flush to disk
+# 0 = write + flush once every second (best perfomance)
+# 1 = write + flush after each commit (best durability + safe)
+# 2 = write log buffer at every commit, but flush it once every second
+# http://dev.mysql.com/doc/refman/5.5/en/innodb-parameters.html#sysvar_innodb_flush_log_at_trx_commit
+innodb_flush_log_at_trx_commit = 1
+
+
+# InnoDB memory buffer (cache data and indexes of its tables), the larger you
+# set this value, the less disk I/O is needed to access data in tables. On a
+# dedicated database server, you may set this to up to 80% of the machine
+# physical memory size.
+# http://dev.mysql.com/doc/refman/5.5/en/innodb-buffer-pool.html
+innodb_buffer_pool_size = 128M
+
+
+# How InnoDB will flush data to the disk: by default uses fsync() causing
+# "double buffering" data in OS cache and buffer pool. O_DIRECT bypass OS cache
+# avoiding double buffering, tip suggested by Jordi Prats (systemadmin.es).
+# http://dev.mysql.com/doc/refman/5.5/en/innodb-parameters.html
+innodb_flush_method = O_DIRECT
+
+
+# Number of OS threads that can run concurrently inside the InnoDB engine, rest
+# of the threads have to wait in a FIFO queue for execution. The optimal
+# setting depends on the number of CPUs, number of disks, and the kind of load.
+# A recommended value is 2 times the number of CPUs plus the number of disks.
+# http://dev.mysql.com/doc/refman/5.5/en/innodb-parameters.html#sysvar_innodb_thread_concurrency
+#innodb_thread_concurrency = 0
+
+
+# Size of buffer that InnoDB uses to write to the log files on disk
+# http://dev.mysql.com/doc/refman/5.5/en/innodb-parameters.html#sysvar_innodb_log_buffer_size
+# innodb_log_buffer_size = 8M
+
+
+# The size in bytes of each log file in a log group in InnoDB
+# http://dev.mysql.com/doc/refman/5.5/en/innodb-parameters.html#sysvar_innodb_log_file_size
+# innodb_log_file_size = 5M
