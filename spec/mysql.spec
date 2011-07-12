@@ -1,5 +1,5 @@
 Name: mysql
-Version: 5.5.13
+Version: 5.5.14
 Release: 1
 Summary: MySQL client programs and shared libraries
 Group: Applications/Databases
@@ -670,6 +670,10 @@ fi
 %{_mandir}/man1/mysql_client_test.1*
 
 %changelog
+* Tue Jul 12 2011 Santi Saez <santi@woop.es> - 5.5.14-1
+- Updated to MySQL 5.5.14
+- Added InnoDB performance tuning tips in MySQL default configuration file
+
 * Tue Jun 14 2011 Santi Saez <santi@woop.es> - 5.5.13-1
 - Updated to MySQL 5.5.13
 
