@@ -6,7 +6,7 @@
 
 Summary:       APC caches and optimizes PHP intermediate code
 Name:          php-pecl-apc
-Version:       3.1.6
+Version:       3.1.9
 Release:       1
 License:       PHP
 Group:         Development/Languages
@@ -38,6 +38,16 @@ Requires(postun): %{__pecl}
 %description
 APC is a free, open, and robust framework for caching and optimizing PHP
 intermediate code.
+
+
+%package devel
+Summary:       APC development files
+Group:         Development/Libraries
+Requires:      php-pecl-apc = %{version}-%{release}
+Requires:      php-devel
+
+%description devel
+Files needed to compile programs using APC serializer
 
 
 %prep
@@ -172,8 +182,14 @@ fi
 %{php_extdir}/apc.so
 %{pecl_xmldir}/%{name}.xml
 
+%files devel
+%{_includedir}/php/ext/apc
+
 
 %changelog
+* Tue Jul 12 2011 Santi Saez <santi@woop.es> - 3.1.9-1
+- Updated to APC 3.1.9 + added -devel package for APC serializer
+
 * Sat Apr 10 2010 Joe Orton <jorton@redhat.com> - 3.1.3p1-1.2.1
 - hide scriptlet errors (#579036)
 
