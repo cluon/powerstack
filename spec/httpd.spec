@@ -6,7 +6,7 @@
 
 Summary: Apache HTTP Server
 Name: httpd
-Version: 2.2.19
+Version: 2.2.20
 Release: 1
 URL: http://httpd.apache.org/
 Source0: http://www.apache.org/dist/httpd/httpd-%{version}.tar.bz2
@@ -540,6 +540,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/httpd/build/*.sh
 
 %changelog
+* Wed Aug 31 2011 Santi Saez <santi@woop.es> - 2.2.20-1
+- Update to 2.2.20 (fix CVE-2011-3192, DoS attack in Range header)
+
 * Tue May 24 2011 Santi Saez <santi@woop.es> - 2.2.19-1
 - Fix CVE-2011-1928 regression updating to Apache 2.2.19
 
