@@ -13,8 +13,8 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: php
-Version: 5.3.6
-Release: 2
+Version: 5.3.8
+Release: 1
 License: PHP
 Group: Development/Languages
 URL: http://www.php.net/
@@ -867,6 +867,13 @@ webserver restart
 %files enchant -f files.enchant
 
 %changelog
+* Wed Aug 31 2011 Santi Saez <santi@woop.es> - 5.3.8-1
+- Update to 5.3.8
+- realpath_cache enabled
+- post_max_size and upload_max_filesize increased to 16M
+- Security changes = expose_php=Off + max_file_uploads=16
+- Enable by default short_open_tag PHP feature
+
 * Thu May 12 2011 Santi Saez <santi@woop.es> - 5.3.6-2
 - On RHEL-4 build MySQLi with mysqlnd support
 - Build with MySQL 5.5.12
