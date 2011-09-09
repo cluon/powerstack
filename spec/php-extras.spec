@@ -25,8 +25,8 @@
 Name: php-extras
 Summary: Additional PHP modules from the standard PHP distribution
 #Version: %(php-config --version 2>/dev/null || echo 0)
-Version: 5.3.6
-Release: 2
+Version: 5.3.8
+Release: 1
 Group: Development/Languages
 License: The PHP License
 URL: http://www.php.net/
@@ -266,6 +266,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Sep 9 2011 Santi Saez <santi@woop.es> - 5.3.8-1
+- Update to PHP 5.3.8
+
 * Mon May 16 2011 Santi Saez <santi@woop.es> - 5.3.6-2 
 - Update to build against MySQL 5.5.12
 
