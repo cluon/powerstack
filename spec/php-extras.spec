@@ -128,8 +128,12 @@ rm -rf ext/{mssql,pdo_dblib,interbase,pdo_firebird,readline,mcrypt}/tests
 
 %build
 
-export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing -Wno-pointer-sign"
-
+%if 0%{?rhel} >= 5
+	CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing -Wno-pointer-sign"
+%else
+	CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
+%endif
+export CFLAGS
 
 for mod in %{list}
 do
