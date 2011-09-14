@@ -1,5 +1,5 @@
 Name: mysql
-Version: 5.5.14
+Version: 5.5.15
 Release: 1
 Summary: MySQL client programs and shared libraries
 Group: Applications/Databases
@@ -459,9 +459,6 @@ function powerstack_mysql_restart() {
 if [ $1 = 1 ]; then
 	/sbin/chkconfig --add mysqld
 
-	# Upgrade MySQL schema
-	powerstack_mysql_upgrade
-
 # Upgrade
 elif [ $1 = 2 ]; then
 	# Restart MySQL
@@ -670,6 +667,10 @@ fi
 %{_mandir}/man1/mysql_client_test.1*
 
 %changelog
+* Wed Sep 14 2011 <santi@woop.es> - 5.5.15-1
+- Updated to MySQL 5.5.15
+- fix #1 (drop powerstack_mysql_upgrade on fresh installation)
+
 * Tue Jul 12 2011 Santi Saez <santi@woop.es> - 5.5.14-1
 - Updated to MySQL 5.5.14
 - Added InnoDB performance tuning tips in MySQL default configuration file
