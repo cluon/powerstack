@@ -1,5 +1,5 @@
 Name: mysql
-Version: 5.5.15
+Version: 5.5.16
 Release: 1
 Summary: MySQL client programs and shared libraries
 Group: Applications/Databases
@@ -584,6 +584,7 @@ fi
 %{_bindir}/replace
 %{_bindir}/resolve_stack_dump
 %{_bindir}/resolveip
+%{_bindir}/mysql_plugin
 
 /usr/libexec/mysqld
 #/usr/libexec/mysqlmanager
@@ -621,6 +622,7 @@ fi
 %{_mandir}/man1/resolveip.1*
 %{_mandir}/man1/mysql_tzinfo_to_sql.1*
 %{_mandir}/man8/mysqld.8*
+%{_mandir}/man1/mysql_plugin.1*
 #%{_mandir}/man8/mysqlmanager.8*
 
 %{_datadir}/mysql/errmsg-utf8.txt
@@ -645,6 +647,7 @@ fi
 
 %files embedded
 %defattr(-,root,root)
+%{_bindir}/mysql_embedded
 %{_libdir}/mysql/libmysqld.so.*
 
 %files embedded-devel
@@ -667,8 +670,11 @@ fi
 %{_mandir}/man1/mysql_client_test.1*
 
 %changelog
-* Wed Sep 14 2011 <santi@woop.es> - 5.5.15-1
-- Updated to MySQL 5.5.15
+* Tue Sep 27 2011 Santi Saez <santi@woop.es> - 5.5.16-1
+- Update to MySQL 5.5.16
+
+* Wed Sep 14 2011 Santi Saez <santi@woop.es> - 5.5.15-1
+- Update to MySQL 5.5.15
 - fix #1 (drop powerstack_mysql_upgrade on fresh installation)
 
 * Tue Jul 12 2011 Santi Saez <santi@woop.es> - 5.5.14-1
