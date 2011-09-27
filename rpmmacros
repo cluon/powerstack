@@ -1,5 +1,5 @@
 %home			%(echo $HOME)
-%_topdir		%{home}/powerstack
+%_topdir		%{home}
 %vendor			PowerStack
 %packager		Santi Saez <santi@woop.es>
 %_signature		gpg
