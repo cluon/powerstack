@@ -11,6 +11,11 @@ License: GPLv2 with exceptions
 # Regression tests take a long time, you can skip 'em with this
 %{!?runselftest:%global runselftest 1}
 
+# Set maximum fuzz factor to 2 on RHEL-6 (--fuzz=0 by default, http://goo.gl/4qZJq)
+%if 0%{?rhel} == 6
+	%define _default_patch_fuzz 2
+%endif
+
 # Upstream has a mirror redirector for downloads, so the URL is hard to
 # represent statically.  You can get the tarball by following a link from
 # http://dev.mysql.com/downloads/mysql/
