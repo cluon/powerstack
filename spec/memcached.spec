@@ -2,7 +2,7 @@
 %define groupname  memcached
 
 Name:           memcached
-Version:        1.4.5
+Version:        1.4.9
 Release:        1
 Epoch:		0
 Summary:        High Performance, Distributed Memory Object Cache
@@ -111,9 +111,10 @@ exit 0
 
 
 %postun
-if [ "$1" -ge 1 ]; then
-    /sbin/service %{name} condrestart > /dev/null 2>&1
-fi
+# DISABLED by PowerStack! **never** restart memcached service on RPM upgrade!!
+#if [ "$1" -ge 1 ]; then
+#    /sbin/service %{name} condrestart > /dev/null 2>&1
+#fi
 exit 0
 
 
@@ -134,6 +135,10 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Thu Nov  3 2011 Santi Saez <santi@woop.es> - 1.4.9-1
+- Upgrade to upstream memcached 1.4.9
+- Disable memcached service restart on RPM upgrade
+
 * Tue May 24 2011 Santi Saez <santi@woop.es> - 1.4.5-1
 - Backport from EPEL-5
 
