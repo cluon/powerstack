@@ -8,7 +8,7 @@
 %define nginx_webroot   %{nginx_datadir}/html
 
 Name:           nginx
-Version:        1.0.2
+Version:        1.0.9
 Release:        1
 Summary:        Robust, small and high performance HTTP and reverse proxy server
 Group:          System Environment/Daemons   
@@ -195,6 +195,9 @@ fi
 
 
 %changelog
+* Sun Nov  6 2011 Santi Saez <santi@woop.es> - 1.0.9-1
+- Upgrade to upstream nginx 1.0.9
+
 * Fri May 20 2011 Santi Saez <santi@woop.es> - 1.0.2-1
 - Backport from EPEL-5 and update to 1.0.2
 
