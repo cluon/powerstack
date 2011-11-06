@@ -97,6 +97,7 @@ export DESTDIR=%{buildroot}
     --with-http_degradation_module \
     --with-http_stub_status_module \
     --with-http_perl_module \
+    --with-http_mp4_module \
     --with-mail \
 %if 0%{?rhel} >= 5
     --with-file-aio \
@@ -196,7 +197,7 @@ fi
 
 %changelog
 * Sun Nov  6 2011 Santi Saez <santi@woop.es> - 1.0.9-1
-- Upgrade to upstream nginx 1.0.9
+- Upgrade to upstream nginx 1.0.9 + MP4 pseudo-streaming module enabled
 
 * Fri May 20 2011 Santi Saez <santi@woop.es> - 1.0.2-1
 - Backport from EPEL-5 and update to 1.0.2
