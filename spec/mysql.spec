@@ -1,5 +1,5 @@
 Name: mysql
-Version: 5.5.16
+Version: 5.5.17
 Release: 1
 Summary: MySQL client programs and shared libraries
 Group: Applications/Databases
@@ -675,6 +675,9 @@ fi
 %{_mandir}/man1/mysql_client_test.1*
 
 %changelog
+* Mon Nov  7 2011 Santi Saez <santi@woop.es> - 5.5.17-1
+- Upgrade to upstream MySQL 5.5.17
+
 * Tue Sep 27 2011 Santi Saez <santi@woop.es> - 5.5.16-1
 - Update to MySQL 5.5.16
 
