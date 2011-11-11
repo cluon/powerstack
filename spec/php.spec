@@ -32,7 +32,8 @@ Patch4: php-5.3.0-phpize64.patch
 Patch5: php-5.2.0-includedir.patch
 Patch6: php-5.2.4-embed.patch
 Patch7: php-5.3.0-recode.patch
-Patch8: php-5.3.2-aconf26x.patch
+#Patch8: php-5.3.2-aconf26x.patch
+Patch8: php-5.3-autoconf-2.59.patch
 # http://bugs.php.net/50578
 Patch9: php-5.3.2-phar.patch
 
@@ -400,7 +401,7 @@ support for using the enchant library to PHP.
 %patch5 -p1 -b .includedir
 %patch6 -p1 -b .embed
 %patch7 -p1 -b .recode
-%patch8 -p1 -b .aconf26x
+%patch8 -p1 -b .autoconf259
 #%patch9 -p1 -b .libedit
 
 %patch20 -p1 -b .shutdown
@@ -491,9 +492,20 @@ fi
 
 
 %build
-# Force use of system libtool:
+
+# PowerStack (hack based on IUS Community Project autoconf 2.59 patch)
+%if 0%{?rhel} >= 6
+cat `aclocal --print-ac-dir`/{libtool,ltoptions,ltsugar,ltversion,lt~obsolete}.m4 >> aclocal.m4
+%endif
+
+# Force use of system libtool:                                                         
 libtoolize --force --copy
+
+%if 0%{?rhel} >= 6
+cat `aclocal --print-ac-dir`/{libtool,ltoptions,ltsugar,ltversion,lt~obsolete}.m4 > build/libtool.m4
+%else
 cat `aclocal --print-ac-dir`/libtool.m4 > build/libtool.m4
+%endif
 
 # Regenerate configure scripts (patches change config.m4's)
 touch configure.in
@@ -873,6 +885,7 @@ webserver restart
 - post_max_size and upload_max_filesize increased to 16M
 - Security changes = expose_php=Off + max_file_uploads=16
 - Enable by default short_open_tag PHP feature
+- Autoconf 2.59 fix for EL-6 (php-5.3-autoconf-2.59.patch)
 
 * Thu May 12 2011 Santi Saez <santi@woop.es> - 5.3.6-2
 - On RHEL-4 build MySQLi with mysqlnd support
