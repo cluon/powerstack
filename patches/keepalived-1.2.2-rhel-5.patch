@@ -1,0 +1,32 @@
+# Keepalived 1.2.x patches = http://cgit.luffy.cx/keepalived/?h=fixes-1.2.0
+
+From 21e6c79c93ebf5ae9761158dbf048abaed9fd747 Mon Sep 17 00:00:00 2001
+From: Vincent Bernat <bernat@luffy.cx>
+Date: Sun, 20 Feb 2011 12:56:16 +0000
+Subject: ipvs: don't include linux/types.h or asm/types.h
+
+Those kernel headers should not be included into userland programs. We
+redefine kernel types like __u32, __be32 to their userland
+counterparts instead. This allows keepalived to compile on RHEL 5.
+---
+diff --git a/keepalived/libipvs-2.6/ip_vs.h b/keepalived/libipvs-2.6/ip_vs.h
+index e174424..40ea9a7 100644
+--- a/keepalived/libipvs-2.6/ip_vs.h
++++ b/keepalived/libipvs-2.6/ip_vs.h
+@@ -6,8 +6,12 @@
+ #ifndef _IP_VS_H
+ #define _IP_VS_H
+ 
+-#include <asm/types.h>		/* For __uXX types */
+-#include <linux/types.h>	/* For __beXX types in userland */
++/* Userland compatibility with kernel */
++#define __u32 u_int32_t
++#define __be32 u_int32_t
++#define __u16 u_int16_t
++#define __be16 u_int16_t
++#define __u64 u_int64_t
+ 
+ #include <netinet/in.h>
+ #include <sys/types.h>
+--
+cgit v0.8.3.4
