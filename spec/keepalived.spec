@@ -1,6 +1,6 @@
 Summary: HA monitor built upon LVS, VRRP and service pollers
 Name: keepalived
-Version: 1.2.1
+Version: 1.2.2
 Release: 1
 License: GPLv2+
 Group: Applications/System
@@ -9,6 +9,7 @@ Source0: http://www.keepalived.org/software/keepalived-%{version}.tar.gz
 Source1: keepalived.init
 Patch0: keepalived-1.1.14-installmodes.patch
 Patch1: keepalived-1.1.19-fix-ipvs-loading.patch
+Patch2: keepalived-1.2.2-rhel-5.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 Requires(post): /sbin/chkconfig
 Requires(preun): /sbin/service, /sbin/chkconfig
@@ -39,6 +40,7 @@ healthchecks and LVS directors failover.
 %setup -q
 %patch0 -p1 -b .installmodes
 %patch1 -p1 -b .fix-ipvs-loading
+%patch2 -p1 -b .rhel-5
 
 
 %build
@@ -81,9 +83,9 @@ if [ $1 -eq 0 ]; then
 fi
 
 %postun
-if [ $1 -ge 1 ]; then
-    /sbin/service keepalived condrestart &>/dev/null || :
-fi
+#if [ $1 -ge 1 ]; then
+#    /sbin/service keepalived condrestart &>/dev/null || :
+#fi
 
 
 %files
@@ -102,6 +104,11 @@ fi
 
 
 %changelog
+* Tue Nov 22 2011 Santi Saez <santi@woop.es> - 1.2.2-1
+- Upgrade to upstream Keepalived 1.2.2
+- keepalived-1.2.2-rhel-5.patch added to allow compile on RHEL-5
+- Disable service restart on RPM upgrade
+
 * Thu Apr 28 2011 Santi Saez <santi@woop.es> - 1.2.1-1
 - Backport from EPEL-6 and update to 1.2.1
 
