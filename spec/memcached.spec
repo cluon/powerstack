@@ -2,7 +2,7 @@
 %define groupname  memcached
 
 Name:           memcached
-Version:        1.4.9
+Version:        1.4.10
 Release:        1
 Epoch:		0
 Summary:        High Performance, Distributed Memory Object Cache
@@ -135,6 +135,9 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Wed Nov 23 2011 Santi Saez <santi@woop.es> - 1.4.10-1
+- Upgrade to upstream memcached 1.4.10
+
 * Thu Nov  3 2011 Santi Saez <santi@woop.es> - 1.4.9-1
 - Upgrade to upstream memcached 1.4.9
 - Disable memcached service restart on RPM upgrade
