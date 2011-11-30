@@ -1,0 +1,11 @@
+--- configure.orig	2011-11-30 23:58:55.000000000 +0100
++++ configure	2011-11-30 23:59:14.000000000 +0100
+@@ -3598,7 +3598,7 @@
+ 
+ 
+ 
+-  list="-Wall -Werror"
++  list="-Wall"
+   flags_supported=""
+   flags_unsupported=""
+   { $as_echo "$as_me:${as_lineno-$LINENO}: checking for supported compiler flags" >&5

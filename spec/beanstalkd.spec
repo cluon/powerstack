@@ -15,6 +15,7 @@ URL:            http://xph.us/software/%{name}/
 Source0:        http://xph.us/dist/%{name}/%{name}-%{version}.tar.gz
 Source1:        %{name}.init
 Source2:        %{name}.sysconfig
+Patch0:		beanstalkd-1.4.6-centos-4.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:   libevent-devel
@@ -36,6 +37,11 @@ asynchronously.
 
 %prep
 %setup -q
+
+%if 0%{?rhel} == 4
+%patch0 -p0
+%endif
+
 if [ ! -e configure ]; then
   sh autogen.sh
 fi
@@ -102,6 +108,7 @@ fi
 %changelog
 * Thu Nov 24 2011 Santi Saez <santi@woop.es> - 1.4.6-1
 - Upgrade to upstream beanstalkd 1.4.6 (EPEL-6 backport)
+- beanstalkd-1.4.6-centos-4 patch added to allow build on RHEL-4
 
 * Sat Oct 17 2009 Jeremy Hinegardner <jeremy at hinegardner dot org> - 1.4.2-1
 - update to upstream 1.4.2
