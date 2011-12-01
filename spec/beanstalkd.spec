@@ -68,7 +68,7 @@ rm -rf $RPM_BUILD_ROOT
 %pre
 %{_sbindir}/groupadd -f -r %{beanstalkd_group}
 %{_sbindir}/useradd -r -m -c "beanstalkd user" -s /bin/false \
-    -d %{beanstalkd_home} %{beanstalkd_user} 2>/dev/null || :
+    -d %{beanstalkd_home} -g %{beanstalkd_group} %{beanstalkd_user} 2>/dev/null || :
 
 %post
 /sbin/chkconfig --add %{name}
@@ -109,6 +109,7 @@ fi
 * Thu Nov 24 2011 Santi Saez <santi@woop.es> - 1.4.6-1
 - Upgrade to upstream beanstalkd 1.4.6 (EPEL-6 backport)
 - beanstalkd-1.4.6-centos-4 patch added to allow build on RHEL-4
+- #8 fix: error when creating 'beanstalkd' user on package install
 
 * Sat Oct 17 2009 Jeremy Hinegardner <jeremy at hinegardner dot org> - 1.4.2-1
 - update to upstream 1.4.2
