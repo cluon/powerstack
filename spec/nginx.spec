@@ -8,7 +8,7 @@
 %define nginx_webroot   %{nginx_datadir}/html
 
 Name:           nginx
-Version:        1.0.9
+Version:        1.0.10
 Release:        1
 Summary:        Robust, small and high performance HTTP and reverse proxy server
 Group:          System Environment/Daemons   
@@ -196,6 +196,9 @@ fi
 
 
 %changelog
+* Mon Dec 12 2011 Santi Saez <santi@woop.es> - 1.0.10-1
+- Upgrade to upstream nginx 1.0.10
+
 * Sun Nov  6 2011 Santi Saez <santi@woop.es> - 1.0.9-1
 - Upgrade to upstream nginx 1.0.9 + MP4 pseudo-streaming module enabled
 
