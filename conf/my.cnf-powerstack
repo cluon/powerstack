@@ -107,7 +107,12 @@ skip-symbolic-links
 # http://dev.mysql.com/doc/refman/5.5/en/too-many-connections.html
 max_connections = 200
 max_user_connections = 170
-back_log = 50
+
+
+# The number of outstanding connection requests MySQL can have, it's the size
+# of the listen() queue for incoming TCP/IP connections. The maximum value on
+# Linux is directed by net.ipv4.tcp_max_syn_backlog (1024 by default)
+back_log = 256
 
 
 # Do not permit SELECT statements that probably need to examine more than
