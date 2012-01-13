@@ -459,6 +459,10 @@ max_input_time = 60
 ; http://www.php.net/manual/en/ini.core.php#ini.memory-limit
 memory_limit = 128M
 
+; How many input variables (GET, POST and COOKIE) may be accepted, to mitigate
+; DoS attacks based on hash collisions (CVE-2011-4885), introduced in PHP 5.3.9
+max_input_vars = 1000
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Error handling and logging ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

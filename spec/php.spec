@@ -13,7 +13,7 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: php
-Version: 5.3.8
+Version: 5.3.9
 Release: 1
 License: PHP
 Group: Development/Languages
@@ -879,6 +879,11 @@ webserver restart
 %files enchant -f files.enchant
 
 %changelog
+* Thu Jan 12 2012 Santi Saez <santi@woop.es> - 5.3.9-1
+- Upgrade to upstream PHP 5.3.9
+- CVE-2011-4885 fix (max_input_vars to prevent hash collisions based attacks)
+- CVE-2011-4566 (integer overflow during the parsing of invalid exif header)
+
 * Wed Aug 31 2011 Santi Saez <santi@woop.es> - 5.3.8-1
 - Update to 5.3.8
 - realpath_cache enabled

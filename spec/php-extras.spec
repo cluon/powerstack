@@ -25,7 +25,7 @@
 Name: php-extras
 Summary: Additional PHP modules from the standard PHP distribution
 #Version: %(php-config --version 2>/dev/null || echo 0)
-Version: 5.3.8
+Version: 5.3.9
 Release: 1
 Group: Development/Languages
 License: The PHP License
@@ -270,6 +270,11 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jan 12 2012 Santi Saez <santi@woop.es> - 5.3.9-1
+- Upgrade to upstream PHP 5.3.9
+- CVE-2011-4885 fix (max_input_vars to prevent hash collisions based attacks)
+- CVE-2011-4566 (integer overflow during the parsing of invalid exif header)
+
 * Fri Sep 9 2011 Santi Saez <santi@woop.es> - 5.3.8-1
 - Update to PHP 5.3.8
 
