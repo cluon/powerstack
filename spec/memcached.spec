@@ -2,7 +2,7 @@
 %define groupname  memcached
 
 Name:           memcached
-Version:        1.4.10
+Version:        1.4.11
 Release:        1
 Epoch:		0
 Summary:        High Performance, Distributed Memory Object Cache
@@ -136,6 +136,11 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Tue Jan 17 2012 Santi Saez <santi@woop.es> - 1.4.11-1
+- Upgrade to upstream memcached 1.4.11
+- Fix race conditions and crashes introduced in previos version (goo.gl/0IQbe)
+- Adds the ability to rebalance and reassign SLAB memory
+
 * Wed Nov 23 2011 Santi Saez <santi@woop.es> - 1.4.10-1
 - Upgrade to upstream memcached 1.4.10
 - %check phase disabled because of testapp:start_server() assertion random crash
