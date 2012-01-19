@@ -16,6 +16,7 @@ Source0:        http://memcached.googlecode.com/files/%{name}-%{version}.tar.gz
 Source1:        memcached.sysv
 
 # Fixes
+Patch0:		memcached-1.4.11-gcc-atomictest.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -48,6 +49,7 @@ memcached binary include files.
 
 %prep
 %setup -q
+%patch0 -p1 -b .gcc-atomictest
 
 %build
 %configure
@@ -140,6 +142,7 @@ exit 0
 - Upgrade to upstream memcached 1.4.11
 - Fix race conditions and crashes introduced in previos version (goo.gl/0IQbe)
 - Adds the ability to rebalance and reassign SLAB memory
+- memcached-1.4.11-gcc-atomictest patch added for RHEL-{4,5} (goo.gl/bFdPI)
 
 * Wed Nov 23 2011 Santi Saez <santi@woop.es> - 1.4.10-1
 - Upgrade to upstream memcached 1.4.10

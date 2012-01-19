@@ -1,0 +1,62 @@
+diff --git a/thread.c b/thread.c
+index 5735376..3c90ecb 100644
+--- a/thread.c
++++ b/thread.c
+@@ -43,7 +43,7 @@ pthread_mutex_t cache_lock;
+ /* Connection lock around accepting new connections */
+ pthread_mutex_t conn_lock = PTHREAD_MUTEX_INITIALIZER;
+ 
+-#if !defined(__GNUC__) && !defined(__sun)
++#if !defined(__GCC_HAVE_SYNC_COMPARE_AND_SWAP_2) && !defined(__sun)
+ pthread_mutex_t atomics_mutex = PTHREAD_MUTEX_INITIALIZER;
+ #endif
+ 
+@@ -79,14 +79,14 @@ static pthread_cond_t init_cond;
+ static void thread_libevent_process(int fd, short which, void *arg);
+ 
+ inline unsigned short refcount_incr(unsigned short *refcount) {
+-#ifdef __GNUC__
++#ifdef __GCC_HAVE_SYNC_COMPARE_AND_SWAP_2
+     return __sync_add_and_fetch(refcount, 1);
+ #elif defined(__sun)
+     return atomic_inc_ushort_nv(refcount);
+ #else
+     unsigned short res;
+     mutex_lock(&atomics_mutex);
+-    *refcount++;
++    (*refcount)++;
+     res = *refcount;
+     pthread_mutex_unlock(&atomics_mutex);
+     return res;
+@@ -94,14 +94,14 @@ inline unsigned short refcount_incr(unsigned short *refcount) {
+ }
+ 
+ inline unsigned short refcount_decr(unsigned short *refcount) {
+-#ifdef __GNUC__
++#ifdef __GCC_HAVE_SYNC_COMPARE_AND_SWAP_2
+     return __sync_sub_and_fetch(refcount, 1);
+ #elif defined(__sun)
+     return atomic_dec_ushort_nv(refcount);
+ #else
+     unsigned short res;
+     mutex_lock(&atomics_mutex);
+-    *refcount--;
++    (*refcount)--;
+     res = *refcount;
+     pthread_mutex_unlock(&atomics_mutex);
+     return res;
+@@ -665,6 +665,14 @@ void thread_init(int nthreads, struct event_base *main_base) {
+     int         i;
+     int         power;
+ 
++#ifdef __GCC_HAVE_SYNC_COMPARE_AND_SWAP_2
++    //fprintf(stderr, "USING GCC ATOMICS\n");
++#elif defined(__sun)
++    //fprintf(stderr, "USING SUN ATOMICS\n");
++#else
++    //fprintf(stderr, "USING EMULATED ATOMICS\n");
++#endif
++
+     pthread_mutex_init(&cache_lock, NULL);
+     pthread_mutex_init(&stats_lock, NULL);
+ 
