@@ -23,7 +23,7 @@ BuildRequires:  ruby >= 1.8.1
 %if 0%{?fedora} || 0%{?rhel} >= 5
 BuildArch:      noarch
 Requires:       ruby(abi) = 1.8
-Requires:       ruby-shadow
+#Requires:       ruby-shadow
 %endif
 
 # Pull in ruby selinux bindings where available
@@ -37,7 +37,7 @@ Requires:       ruby-shadow
 
 Requires:       facter >= 1.5
 Requires:       ruby >= 1.8.1
-%{!?_without_augeas:Requires: ruby-augeas}
+#%{!?_without_augeas:Requires: ruby-augeas}
 
 Requires(pre):  shadow-utils
 Requires(post): chkconfig
@@ -283,6 +283,7 @@ rm -rf %{buildroot}
 %changelog
 * Thu Jan 19 2012 Santi Saez <santi@woop.es> - 2.7.9-1
 - Upgrade to upstream Puppet 2.7.9
+- Remove ruby-augeas and ruby-shadow RPM deps for RHEL-{4,5}
 
 * Sun Oct 23 2011 Todd Zullinger <tmz@pobox.com> - 2.6.12-1
 - Update to 2.6.12, fixes CVE-2011-3872
