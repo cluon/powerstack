@@ -16,7 +16,7 @@ Source2:          %{name}.init
 Patch0:           %{name}-2.2.2-redis.conf.patch
 BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:    tcl >= 8.5
+BuildRequires:    tcl
 
 Requires:         logrotate
 Requires(post):   chkconfig
