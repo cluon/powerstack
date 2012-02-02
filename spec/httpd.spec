@@ -6,7 +6,7 @@
 
 Summary: Apache HTTP Server
 Name: httpd
-Version: 2.2.21
+Version: 2.2.22
 Release: 1
 URL: http://httpd.apache.org/
 Source0: http://www.apache.org/dist/httpd/httpd-%{version}.tar.bz2
@@ -239,8 +239,8 @@ done
 rm -rf $RPM_BUILD_ROOT
 
 # Classify ab and logresolve as section 1 commands, as they are in /usr/bin
-mv docs/man/ab.8 docs/man/ab.1
-mv docs/man/logresolve.8 docs/man/logresolve.1
+mv docs/man/tr/ab.8 docs/man/ab.1
+mv docs/man/tr/logresolve.8 docs/man/logresolve.1
 
 pushd prefork
 make DESTDIR=$RPM_BUILD_ROOT install
@@ -508,7 +508,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(0700,apache,apache) %dir %{_localstatedir}/cache/mod_proxy
 
 %{_mandir}/man8/*
-%exclude %{_mandir}/man8/apxs.8*
+#%exclude %{_mandir}/man8/apxs.8*
 
 %files tools
 %defattr(-,root,root)
@@ -534,12 +534,17 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 %{_includedir}/httpd
 %{_sbindir}/apxs
-%{_mandir}/man8/apxs.8*
+#%{_mandir}/man8/apxs.8*
 %dir %{_libdir}/httpd/build
 %{_libdir}/httpd/build/*.mk
 %{_libdir}/httpd/build/*.sh
 
 %changelog
+* Thu Feb 2 2012 Santi Saez <santi@woop.es> - 2.2.22-1
+- Upgrade to upstream Apache 2.2.22
+- Security fix: CVE-2011-3368, CVE-2011-3607, CVE-2011-4317
+- Security fix: CVE-2012-0021, CVE-2012-0031, CVE-2012-0053
+
 * Wed Nov 2 2011 Santi Saez <santi@woop.es> - 2.2.21-1
 - Update to 2.2.21 (fix CVE-2011-3348 and CVE-2011-3192)
 
