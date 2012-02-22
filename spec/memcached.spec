@@ -2,7 +2,7 @@
 %define groupname  memcached
 
 Name:           memcached
-Version:        1.4.11
+Version:        1.4.13
 Release:        1
 Epoch:		0
 Summary:        High Performance, Distributed Memory Object Cache
@@ -16,7 +16,7 @@ Source0:        http://memcached.googlecode.com/files/%{name}-%{version}.tar.gz
 Source1:        memcached.sysv
 
 # Fixes
-Patch0:		memcached-1.4.11-gcc-atomictest.patch
+#Patch0:		memcached-1.4.11-gcc-atomictest.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -49,9 +49,18 @@ memcached binary include files.
 
 %prep
 %setup -q
-%patch0 -p1 -b .gcc-atomictest
+#%patch0 -p1 -b .gcc-atomictest
 
 %build
+
+# memcached 1.4.13 build fails on RHEL-5 + i386, ofender is march gcc flag => s/i386/i686
+%ifarch %ix86
+   %if 0%{?rhel} == 5
+      CFLAGS='-O2 -g -march=i686 -mtune=i686'
+      export CFLAGS
+   %endif
+%endif
+
 %configure
 
 make %{?_smp_mflags}
@@ -62,7 +71,7 @@ make %{?_smp_mflags}
 # PowerStack: %check phase disabled on 2011-11-23
 #rm -f t/daemonize.t 
 #rm -f t/binary.t
-#make test
+make test
 
 %install
 rm -rf %{buildroot}
@@ -138,6 +147,13 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Tue Feb 21 2012 Santi Saez <santi@woop.es> - 1.4.13-1
+- Upgrade to upstream memcached 1.4.13 (http://goo.gl/RkXLQ)
+- Fix small number of bugs building on different platforms and old GCC versions
+- memcached-1.4.11-gcc-atomictest removed, .12 adds properly detect GCC atomics
+- make test enabled again
+- RPM build fails on RHEL-5 + i386, ofender is-march gcc flag, fixed with a %if
+
 * Tue Jan 17 2012 Santi Saez <santi@woop.es> - 1.4.11-1
 - Upgrade to upstream memcached 1.4.11
 - Fix race conditions and crashes introduced in previos version (goo.gl/0IQbe)
