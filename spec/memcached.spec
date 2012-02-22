@@ -55,7 +55,7 @@ memcached binary include files.
 
 # memcached 1.4.13 build fails on RHEL-5 + i386, ofender is march gcc flag => s/i386/i686
 %ifarch %ix86
-   %if 0%{?rhel} >= 5
+   %if 0%{?rhel} >= 4
       CFLAGS='-O2 -g -march=i686 -mtune=i686'
       export CFLAGS
    %endif
