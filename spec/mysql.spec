@@ -1,5 +1,5 @@
 Name: mysql
-Version: 5.5.20
+Version: 5.5.21
 Release: 1
 Summary: MySQL client programs and shared libraries
 Group: Applications/Databases
@@ -675,8 +675,11 @@ fi
 %{_mandir}/man1/mysql_client_test.1*
 
 %changelog
+* Thu Feb 23 2012 Santi Saez - 5.5.21-1
+- Upgrade to upstream MySQL 5.5.21
+
 * Fri Jan 13 2012 Santi Saez <santi@woop.es> - 5.5.20-1
-- Upgrade to upstream MySQL 5.5.10
+- Upgrade to upstream MySQL 5.5.20
 - back_log increased from default 50 connections to 256
 
 * Tue Dec 13 2011 Santi Saez <santi@woop.es> - 5.5.19-1
