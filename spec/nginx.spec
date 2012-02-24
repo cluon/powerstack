@@ -8,7 +8,7 @@
 %define nginx_webroot   %{nginx_datadir}/html
 
 Name:           nginx
-Version:        1.0.10
+Version:        1.0.12
 Release:        1
 Summary:        Robust, small and high performance HTTP and reverse proxy server
 Group:          System Environment/Daemons   
@@ -196,6 +196,11 @@ fi
 
 
 %changelog
+* Thu Feb 23 2012 Santi Saez <santi@woop.es> - 1.0.12-1
+- Upgrade to upstream nginx 1.0.12
+- TLSv1.1 and TLSv1.2 parameters added for ssl_protocols directive
+- image_filter_sharpen directive added
+
 * Mon Dec 12 2011 Santi Saez <santi@woop.es> - 1.0.10-1
 - Upgrade to upstream nginx 1.0.10
 
