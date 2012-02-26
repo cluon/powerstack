@@ -1,5 +1,5 @@
 Name:       nodejs
-Version:    0.6.8
+Version:    0.6.11
 Release:    1
 Summary:    Evented I/O for V8 JavaScript
 License:    BSD and MIT and ASL 2.0 and GPLv3
@@ -213,6 +213,10 @@ rm -rf %{buildroot}
 %{_libdir}/../lib/nodejs/wafadmin/
 
 %changelog
+* Sun Feb 26 2012 Santi Saez <santi@woop.es> - 0.6.11-1
+- Upgrade to upstream node.js 0.6.11
+- Allow multiple WebSocket and WWW-Authenticate headers
+
 * Fri Jan 20 2012 T.C. Hollingsworth <tchollingsworth@gmail.com> - 0.6.8-1
 - new upstream release 0.6.8
 - drop EL5 build patch; fixed upstream
