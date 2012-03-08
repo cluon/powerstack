@@ -167,8 +167,12 @@ tmp_table_size = 64M
 max_heap_table_size = 64M
 
 
-# Changes the number of file descriptors available to MySQL
-open_files_limit = 8192
+# Changes the number of file descriptors available to MySQL, you should try
+# increasing the value if mysqld gives you "too many open files" error. MySQL
+# may attempt to allocate more than the requested number of descriptors, using
+# the values of max_connections and table_open_cache to estimate whether more
+# descriptors will be needed, using: 10 + max_connections + table_open_cache*2
+open_files_limit = 16384
 
 
 # Stack size for each thread. The default of 192KB (256KB for 64-bit systems)
