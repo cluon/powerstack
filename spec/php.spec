@@ -1,10 +1,10 @@
 %global contentdir  /var/www
 # API/ABI check
-%global apiver      20090626
-%global zendver     20090626
+%global apiver      20100412
+%global zendver     20100525
 %global pdover      20080721
 # Extension version
-%global fileinfover 1.0.5-dev
+%global fileinfover 1.0.5
 %global pharver     2.0.1
 %global zipver      1.9.1
 %global jsonver     1.2.1
@@ -13,7 +13,7 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: php
-Version: 5.3.10
+Version: 5.4.0
 Release: 1
 License: PHP
 Group: Development/Languages
@@ -33,12 +33,12 @@ Patch5: php-5.2.0-includedir.patch
 Patch6: php-5.2.4-embed.patch
 Patch7: php-5.3.0-recode.patch
 #Patch8: php-5.3.2-aconf26x.patch
-Patch8: php-5.3-autoconf-2.59.patch
+#Patch8: php-5.3-autoconf-2.59.patch
 # http://bugs.php.net/50578
 Patch9: php-5.3.2-phar.patch
 
 # Fixes for extensions
-Patch20: php-4.3.11-shutdown.patch
+#Patch20: php-4.3.11-shutdown.patch
 Patch21: php-5.2.3-macropen.patch
 
 # Functional changes
@@ -401,10 +401,10 @@ support for using the enchant library to PHP.
 %patch5 -p1 -b .includedir
 %patch6 -p1 -b .embed
 %patch7 -p1 -b .recode
-%patch8 -p1 -b .autoconf259
+#%patch8 -p1 -b .autoconf259
 #%patch9 -p1 -b .libedit
 
-%patch20 -p1 -b .shutdown
+#%patch20 -p1 -b .shutdown
 #%patch21 -p1 -b .macropen
 
 %patch40 -p1 -b .dlopen
@@ -879,6 +879,11 @@ webserver restart
 %files enchant -f files.enchant
 
 %changelog
+* Thu Mar  7 2012 Santi Saez <santi@woop.es> - 5.4.0-1
+- Upgrade to upstream PHP 5.4.0, followup PowerStack changes http://kcy.me/7eaa
+- php-5.3-autoconf-2.59 patch removed (autoconf 2.59+ is now supported)
+- Upstream API + Zend ABI versions upgraded
+
 * Sat Feb  4 2012 Santi Saez <santi@woop.es> - 5.3.10-1
 - Upgrade to upstream PHP 5.3.10
 - CVE-2012-0830, critical security fix: arbitrary remote code execution
