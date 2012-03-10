@@ -6,7 +6,7 @@
 Summary:      Terminal screen handling and optimization package
 Name:         php-pecl-ncurses
 Version:      1.0.1
-Release:      1
+Release:      2
 License:      PHP
 Group:        Development/Languages
 URL:          http://pecl.php.net/package/ncurses
@@ -102,6 +102,9 @@ fi
 
 
 %changelog
+* Sat Mar 10 2012 Santi Saez <santi@woop.es> - 1.0.1-2
+- PHP 5.4.x ABI support mass rebuild
+
 * Thu Jul 21 2011 Santi Saez <santi@woop.es> - 1.0.1-1
 - Rebuild from EPEL-6
 

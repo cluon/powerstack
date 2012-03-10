@@ -7,7 +7,7 @@
 Summary:      Extension to work with the Memcached caching daemon
 Name:         php-pecl-memcache
 Version:      3.0.6
-Release:      1
+Release:      2
 License:      PHP
 Group:        Development/Languages
 URL:          http://pecl.php.net/package/%{pecl_name}
@@ -133,6 +133,9 @@ fi
 
 
 %changelog
+* Sat Mar 10 2012 Santi Saez <santi@woop.es> - 3.0.6-2
+- PHP 5.4.x ABI support mass rebuild
+
 * Sun Dec 25 2011 Santi Saez <santi@woop.es> - 3.0.6-1
 - Upgrade to upstream memcached PECL extension 3.0.6
 - Fix PECL bugs: #16672, #19374 and #17518
