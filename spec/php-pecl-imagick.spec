@@ -6,7 +6,7 @@
 
 Summary:		Provides a wrapper to the ImageMagick library
 Name:			php-pecl-%peclName
-Version:		3.0.1
+Version:		3.1.0
 Release:		1
 License:		PHP
 Group:			Development/Libraries
@@ -82,6 +82,9 @@ fi
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/php.d/%peclName.ini
 
 %changelog
+* Sat Mar 10 2012 Santi Saez <santi@woop.es> - 3.1.0-1
+- Upgrade to php-pecl-imagick 3.1.0 RC1, needed for PHP 5.4 ABI
+
 * Mon Nov 21 2011 Santi Saez <santi@woop.es> - 3.0.1-1
 - Upgrade to upstream 3.0.1 (based on EPEL-6)
 
