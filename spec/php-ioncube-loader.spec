@@ -1,6 +1,6 @@
 Summary: Extension used to handle encoded files with ionCube Encoder
 Name: php-ioncube-loader
-Version: 4.0.7
+Version: 4.0.14
 Release: 1
 Group: Development/Languages
 License: ionCube Ltd.
@@ -18,24 +18,25 @@ Source0: http://downloads2.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}
 
-Requires: php >= 5.3
+Requires: php >= 5.4
 
 %description
 PHP extension used to handle encoded files at runtime with ionCube Encoder
 
 %prep
 %setup -c -q
+
 %build
 
 %install
 mkdir -p %{buildroot}/usr/lib/php/modules
 
 %ifarch %ix86
-cp ioncube/ioncube_loader_lin_5.3.so %{buildroot}/usr/lib/php/modules/ioncube-loader.so
+cp ioncube/ioncube_loader_lin_5.4.so %{buildroot}/usr/lib/php/modules/ioncube-loader.so
 %endif
 
 %ifarch x86_64
-cp ioncube/ioncube_loader_lin_5.3.so %{buildroot}/usr/lib/php/modules/ioncube-loader.so
+cp ioncube/ioncube_loader_lin_5.4.so %{buildroot}/usr/lib/php/modules/ioncube-loader.so
 %endif
 
 mkdir -p %{buildroot}/etc/php.d
@@ -74,3 +75,10 @@ function webserver() {
 }
 
 webserver restart
+
+%changelog
+* Sun Mar 11 2012 Santi Saez <santi@woop.es> - 4.0.14-1
+- Upgrade to upstream php-ioncube-loader 4.0.14 for PHP 5.4.x branch
+
+* Tue Feb 28 2011 Santi Saez <santi@woop.es> - 4.0.7-1
+- First release of php-ioncube-loader for PowerStack
