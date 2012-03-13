@@ -5,8 +5,8 @@
 
 Summary: Apache Portable Runtime library
 Name: apr
-Version: 1.3.9
-Release: 4
+Version: 1.4.6
+Release: 1
 License: ASL 2.0
 Group: System Environment/Libraries
 URL: http://apr.apache.org/
@@ -17,8 +17,8 @@ Patch2: apr-1.2.2-locktimeout.patch
 Patch3: apr-1.2.2-libdir.patch
 Patch4: apr-1.2.7-pkgconf.patch
 # Security fixes
-Patch10: apr-1.3.9-CVE-2011-0419.patch
-Patch11: apr-1.2.7-fnmatch.patch
+#Patch10: apr-1.3.9-CVE-2011-0419.patch
+#Patch11: apr-1.2.7-fnmatch.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %if 0%{?rhel} >= 6
@@ -52,8 +52,8 @@ C data structures and routines.
 %patch3 -p1 -b .libdir
 %patch4 -p1 -b .pkgconf
 
-%patch10 -p1 -b .cve0419
-%patch11 -p1 -b .fnmatch
+#%patch10 -p1 -b .cve0419
+#%patch11 -p1 -b .fnmatch
 
 %build
 # regenerate configure script etc.
@@ -134,6 +134,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/aclocal/*.m4
 
 %changelog
+* Sat Mar  3 2012 Santi Saez <santi@woop.es> - 1.4.6-1
+- Upgrade to upstream APR 1.4.6 (required for Apache 2.4 branch)
+- apr-1.3.9-cve-2011-0419 + apr-1.2.7-fnmatch patches removed
+
 * Tue Feb 21 2012 Santi Saez <santi@woop.es> - 1.3.9-4
 - APR 1.3 backported from RHEL-6 to RHEL-5
 - libuuid-devel build dep removed on RHEL-5
