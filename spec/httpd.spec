@@ -1,12 +1,12 @@
 %define contentdir /var/www
 %define suexec_caller apache
-%define mmn 20051115
+%define mmn 20120211
 %define vstring PowerStack
 %define mpms worker event
 
 Summary: Apache HTTP Server
 Name: httpd
-Version: 2.2.22
+Version: 2.4.1
 Release: 1
 URL: http://httpd.apache.org/
 Source0: http://www.apache.org/dist/httpd/httpd-%{version}.tar.bz2
@@ -21,29 +21,29 @@ Source13: manual.conf
 # Documentation
 Source33: README.confd
 # build/scripts patches
-Patch1: httpd-2.1.10-apctl.patch
-Patch2: httpd-2.1.10-apxs.patch
-Patch3: httpd-2.2.9-deplibs.patch
-Patch4: httpd-2.1.10-disablemods.patch
+Patch1: httpd-2.4.1-apctl.patch
+Patch2: httpd-2.4.1-apxs.patch
+Patch3: httpd-2.4.1-deplibs.patch
+#Patch4: httpd-2.1.10-disablemods.patch
 Patch5: httpd-2.1.10-layout.patch
 # Features/functional changes
-Patch20: httpd-2.2.14-release.patch
-Patch21: httpd-2.2.11-xfsz.patch
-Patch22: httpd-2.1.10-pod.patch
-Patch23: httpd-2.0.45-export.patch
-Patch24: httpd-2.2.11-corelimit.patch
+Patch20: httpd-2.4.1-release.patch
+#Patch21: httpd-2.2.11-xfsz.patch
+#Patch22: httpd-2.1.10-pod.patch
+Patch23: httpd-2.4.1-export.patch
+#Patch24: httpd-2.2.11-corelimit.patch
 Patch25: httpd-2.2.11-selinux.patch
 # Bug fixes
-Patch60: httpd-2.0.52-logresline.patch
-Patch61: httpd-2.2.3-defpidlog.patch
+#Patch60: httpd-2.0.52-logresline.patch
+#Patch61: httpd-2.2.3-defpidlog.patch
 Patch62: httpd-2.2.3-extfiltereos.patch
-Patch63: httpd-2.2.3-graceful-ebadf.patch
-Patch64: httpd-2.2.3-noxpad.patch
+#Patch63: httpd-2.2.3-graceful-ebadf.patch
+#Patch64: httpd-2.2.3-noxpad.patch
 Patch65: httpd-2.2.3-pngmagic.patch
-Patch67: httpd-2.2.14-ldapdyngrp.patch
-Patch68: httpd-2.2.15-proxyconn.patch
+#Patch67: httpd-2.2.14-ldapdyngrp.patch
+#Patch68: httpd-2.2.15-proxyconn.patch
 Patch69: httpd-2.2.0-authnoprov.patch
-Patch70: httpd-2.2.15-ssloidval.patch
+#Patch70: httpd-2.2.15-ssloidval.patch
 Patch71: httpd-2.2.15-davputfail.patch
 Patch72: httpd-2.2.15-expectnoka.patch
 # Security fixes
@@ -53,7 +53,7 @@ Group: System Environment/Daemons
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires: autoconf, perl, pkgconfig, findutils
 BuildRequires: zlib-devel, libselinux-devel
-BuildRequires: apr-devel >= 1.2.0, apr-util-devel >= 1.2.0, pcre-devel >= 5.0
+BuildRequires: apr-devel >= 1.4.0, apr-util-devel >= 1.2.0, pcre-devel >= 5.0
 Requires: initscripts >= 8.36, /etc/mime.types
 Obsoletes: httpd-suexec
 Requires(pre): /usr/sbin/useradd
@@ -126,25 +126,25 @@ Security (TLS) protocols.
 %patch1 -p1 -b .apctl
 %patch2 -p1 -b .apxs
 %patch3 -p1 -b .deplibs
-%patch4 -p1 -b .disablemods
+#%patch4 -p1 -b .disablemods
 %patch5 -p1 -b .layout
 
-%patch21 -p1 -b .xfsz
-%patch22 -p1 -b .pod
+#%patch21 -p1 -b .xfsz
+#%patch22 -p1 -b .pod
 %patch23 -p1 -b .export
-%patch24 -p1 -b .corelimit
+#%patch24 -p1 -b .corelimit
 %patch25 -p1 -b .selinux
 
-%patch60 -p1 -b .logresline
-%patch61 -p1 -b .defpidlog
+#%patch60 -p1 -b .logresline
+#%patch61 -p1 -b .defpidlog
 %patch62 -p1 -b .extfiltereos
-%patch63 -p1 -b .graceful-ebadf
-%patch64 -p1 -b .noxpad
+#%patch63 -p1 -b .graceful-ebadf
+#%patch64 -p1 -b .noxpad
 %patch65 -p1 -b .pngmagic
-%patch67 -p1 -b .ldapdyngrp
-%patch68 -p1 -b .proxyconn
+#%patch67 -p1 -b .ldapdyngrp
+#%patch68 -p1 -b .proxyconn
 %patch69 -p1 -b .authnoprov
-%patch70 -p1 -b .ssloidval
+#%patch70 -p1 -b .ssloidval
 %patch71 -p1 -b .davputfail
 #%patch72 -p1 -b .expectnoka
 
@@ -174,7 +174,8 @@ autoheader && autoconf || exit 1
 %{__perl} -pi -e "s:\@exp_installbuilddir\@:%{_libdir}/httpd/build:g" \
 	support/apxs.in
 
-CFLAGS="$RPM_OPT_FLAGS -Wformat-security -fno-strict-aliasing"
+XML2_FLAGS=`xml2-config --cflags`
+CFLAGS="$RPM_OPT_FLAGS -Wformat-security -fno-strict-aliasing $XML2_FLAGS"
 SH_LDFLAGS="-Wl,-z,relro"
 export CFLAGS SH_LDFLAGS
 
@@ -279,8 +280,8 @@ touch $RPM_BUILD_ROOT%{_localstatedir}/cache/mod_ssl/scache.{dir,pag,sem}
 mkdir $RPM_BUILD_ROOT%{_localstatedir}/cache/mod_proxy
 
 # move utilities to /usr/bin
-mv $RPM_BUILD_ROOT%{_sbindir}/{ab,htdbm,logresolve,htpasswd,htdigest} \
-   $RPM_BUILD_ROOT%{_bindir}
+#mv $RPM_BUILD_ROOT%{_sbindir}/{ab,htdbm,logresolve,htpasswd,htdigest} \
+#   $RPM_BUILD_ROOT%{_bindir}
 
 # Make the MMN accessible to module packages
 echo %{mmn} > $RPM_BUILD_ROOT%{_includedir}/httpd/.mmn
@@ -483,6 +484,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_sbindir}/ht*
 %{_sbindir}/apachectl
 %{_sbindir}/rotatelogs
+%{_sbindir}/fcgistarter
 %attr(4510,root,%{suexec_caller}) %{_sbindir}/suexec
 
 %dir %{_libdir}/httpd
@@ -533,13 +535,16 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(-,root,root)
 %{_includedir}/httpd
-%{_sbindir}/apxs
+%{_bindir}/apxs
 #%{_mandir}/man8/apxs.8*
 %dir %{_libdir}/httpd/build
 %{_libdir}/httpd/build/*.mk
 %{_libdir}/httpd/build/*.sh
 
 %changelog
+* Fri Mar 2 2012 Santi Saez <santi@woop.es> - 2.4.1-1
+- Upgrade to upstream Apache 2.4.1, PowerStack issue #23 (http://kcy.me/7h26)
+
 * Thu Feb 2 2012 Santi Saez <santi@woop.es> - 2.2.22-1
 - Upgrade to upstream Apache 2.2.22
 - Security fix: CVE-2011-3368, CVE-2011-3607, CVE-2011-4317

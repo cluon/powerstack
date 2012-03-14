@@ -1,0 +1,14 @@
+--- httpd-2.4.1/configure.in.orig	2012-03-02 14:35:22.305810547 +0100
++++ httpd-2.4.1/configure.in	2012-03-02 14:37:12.944552757 +0100
+@@ -707,9 +707,9 @@
+ 
+ dnl APR should go after the other libs, so the right symbols can be picked up
+ if test x${apu_found} != xobsolete; then
+-  AP_LIBS="$AP_LIBS `$apu_config --avoid-ldap --link-libtool --libs`"
++  AP_LIBS="$AP_LIBS `$apu_config --link-libtool`"
+ fi
+-AP_LIBS="$AP_LIBS `$apr_config --link-libtool --libs`" 
++AP_LIBS="$AP_LIBS `$apr_config --link-libtool`"
+ APACHE_SUBST(AP_LIBS)
+ APACHE_SUBST(AP_BUILD_SRCLIB_DIRS)
+ APACHE_SUBST(AP_CLEAN_SRCLIB_DIRS)

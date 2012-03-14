@@ -1,0 +1,15 @@
+There is no need to "suck in" the apr/apr-util symbols when using
+a shared libapr{,util}, it just bloats the symbol table; so don't.
+
+--- httpd-2.4.1/server/Makefile.in.orig	2012-03-02 14:51:06.263799757 +0100
++++ httpd-2.4.1/server/Makefile.in	2012-03-02 14:51:18.098604405 +0100
+@@ -57,9 +57,6 @@
+ 	( for dir in $(EXPORT_DIRS); do \
+ 	      ls $$dir/*.h ; \
+ 	  done; \
+-	  for dir in $(EXPORT_DIRS_APR); do \
+-	      ls $$dir/ap[ru].h $$dir/ap[ru]_*.h 2>/dev/null; \
+-	  done; \
+ 	) | sort -u > $@
+ 
+ exports.c: export_files

@@ -1,0 +1,43 @@
+Add support for custom "ServerTokens Full-Release" config option.
+
+--- httpd-2.4.1/server/core.c.orig	2012-03-02 15:13:32.822798407 +0100
++++ httpd-2.4.1/server/core.c	2012-03-02 15:16:41.411543713 +0100
+@@ -3075,7 +3075,8 @@
+     SrvTk_MINIMAL,       /* eg: Apache/2.0.41 */
+     SrvTk_OS,            /* eg: Apache/2.0.41 (UNIX) */
+     SrvTk_FULL,          /* eg: Apache/2.0.41 (UNIX) PHP/4.2.2 FooBar/1.2b */
+-    SrvTk_PRODUCT_ONLY  /* eg: Apache */
++    SrvTk_FULL_RELEASE,  /* eg: Apache/2.0.41 (Red Hat) (Release 32.el5) PHP/4.2.2 FooBar/1.2b */
++    SrvTk_PRODUCT_ONLY   /* eg: Apache */
+ };
+ static enum server_token_type ap_server_tokens = SrvTk_FULL;
+ 
+@@ -3151,6 +3152,9 @@
+     else if (ap_server_tokens == SrvTk_MAJOR) {
+         ap_add_version_component(pconf, AP_SERVER_BASEPRODUCT "/" AP_SERVER_MAJORVERSION);
+     }
++    else if (ap_server_tokens == SrvTk_FULL_RELEASE) {
++        ap_add_version_component(pconf, AP_SERVER_BASEVERSION " (@VENDOR@) (Release @RELEASE@)");
++    }
+     else {
+         ap_add_version_component(pconf, AP_SERVER_BASEVERSION " (" PLATFORM ")");
+     }
+@@ -3159,7 +3163,7 @@
+      * Lock the server_banner string if we're not displaying
+      * the full set of tokens
+      */
+-    if (ap_server_tokens != SrvTk_FULL) {
++    if (ap_server_tokens != SrvTk_FULL && ap_server_tokens != SrvTk_FULL_RELEASE) {
+         banner_locked++;
+     }
+     server_description = AP_SERVER_BASEVERSION " (" PLATFORM ")";
+@@ -3189,6 +3193,9 @@
+     else if (!strcasecmp(arg1, "Prod") || !strcasecmp(arg1, "ProductOnly")) {
+         ap_server_tokens = SrvTk_PRODUCT_ONLY;
+     }
++    else if (!strcasecmp(arg1, "Full-Release")) {
++        ap_server_tokens = SrvTk_FULL_RELEASE;
++    }
+     else {
+         ap_server_tokens = SrvTk_FULL;
+     }
