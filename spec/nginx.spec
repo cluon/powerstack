@@ -8,7 +8,7 @@
 %define nginx_webroot   %{nginx_datadir}/html
 
 Name:           nginx
-Version:        1.0.13
+Version:        1.0.14
 Release:        1
 Summary:        Robust, small and high performance HTTP and reverse proxy server
 Group:          System Environment/Daemons   
@@ -196,6 +196,10 @@ fi
 
 
 %changelog
+* Thu Mar 15 2012 Santi Saez <santi@woop.es> - 1.0.14-1
+- Upgrade to upstream nginx 1.0.14
+- Includes a fix for malformed HTTP responses from upstream servers (http://kcy.me/7i9j)
+
 * Sun Mar 11 2012 Santi Saez <santi@woop.es> - 1.0.13-1
 - Upgrade to upstream nginx 1.0.13
 - return + error_page directives can now be used to return 307 redirections
