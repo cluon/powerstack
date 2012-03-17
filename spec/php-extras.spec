@@ -26,7 +26,7 @@ Name: php-extras
 Summary: Additional PHP modules from the standard PHP distribution
 #Version: %(php-config --version 2>/dev/null || echo 0)
 Version: 5.4.0
-Release: 1
+Release: 2
 Group: Development/Languages
 License: The PHP License
 URL: http://www.php.net/
@@ -270,6 +270,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Mar 17 2012 Santi Saez <santi@woop.es> - 5.4.0-2
+- php.spec + php-extras.spec merge still pending, release upgrade
+
 * Thu Mar 10 2012 Santi Saez <santi@woop.es> - 5.4.0-1
 - Upgrade to upstream PHP 5.4.0
 
