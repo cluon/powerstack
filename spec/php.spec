@@ -11,10 +11,13 @@
 
 %define httpd_mmn %(cat %{_includedir}/httpd/.mmn || echo missing-httpd-devel)
 
+# PHP-FPM support?
+%global with_fpm 1
+
 Summary: PHP scripting language for creating dynamic web sites
 Name: php
 Version: 5.4.0
-Release: 1
+Release: 2
 License: PHP
 Group: Development/Languages
 URL: http://www.php.net/
@@ -23,6 +26,15 @@ Source0: http://www.php.net/distributions/php-%{version}.tar.bz2
 Source1: php.conf
 Source2: php.ini
 Source3: macros.php
+
+# PHP-FPM stuff files
+%if %{with_fpm}
+Source4: php-fpm.conf
+Source5: php-fpm-www.conf
+Source6: php-fpm.logrotate
+Source7: php-fpm.sysconfig
+Source8: php-fpm.init
+%endif
 
 # Build fixes
 Patch1: php-5.3.2-gnusrc.patch
@@ -98,6 +110,19 @@ Provides: php-pcntl, php-readline
 %description cli
 The php-cli package contains the command-line interface 
 executing PHP scripts, /usr/bin/php, and the CGI interface.
+
+%if %{with_fpm}
+%package fpm
+Group: Development/Languages
+Summary: PHP FastCGI Process Manager
+Requires: php-common = %{version}-%{release}
+BuildRequires: libevent-devel >= 1.4.11
+
+%description fpm
+PHP-FPM (FastCGI Process Manager) is an alternative PHP FastCGI
+implementation with additional features useful for heavy-loaded
+sites.
+%endif
 
 %if 0%{?rhel} >= 5
 %package zts
@@ -431,7 +456,10 @@ cp ext/ereg/regex/COPYRIGHT regex_COPYRIGHT
 cp ext/gd/libgd/README gd_README
 
 # Multiple builds for multiple SAPIs
-mkdir build-cgi build-apache build-embedded build-zts
+mkdir build-cgi build-apache build-embedded build-zts \
+%if %{with_fpm}
+	build-fpm
+%endif
 
 # Remove bogus test; position of read position after fopen(, "a+")
 # is not defined by C standard, so don't presume anything.
@@ -489,6 +517,9 @@ if test "$ver" != "%{jsonver}"; then
    : Update the jsonver macro and rebuild.
    exit 1
 fi
+
+# php-fpm configuration files for tmpfiles.d
+echo "d %{_localstatedir}/run/php-fpm 755 root root" > php-fpm.tmpfiles
 
 
 %build
@@ -642,6 +673,17 @@ pushd build-apache
 build --with-apxs2=%{_sbindir}/apxs ${without_shared}
 popd
 
+# PHP-FPM build
+%if %{with_fpm}
+pushd build-fpm
+build --enable-fpm \
+	--libdir=%{_libdir}/php \
+	--without-mysql \
+	--disable-pdo \
+	${without_shared}
+popd
+%endif
+
 # Build for inclusion as embedded script language into applications,
 # /usr/lib[64]/libphp5.so
 pushd build-embedded
@@ -685,6 +727,11 @@ make -C build-embedded install-sapi install-headers INSTALL_ROOT=$RPM_BUILD_ROOT
 # Install everything from the CGI SAPI build
 make -C build-cgi install INSTALL_ROOT=$RPM_BUILD_ROOT 
 
+# Install the PHP-FPM binary
+%if %{with_fpm}
+make -C build-fpm install-fpm INSTALL_ROOT=$RPM_BUILD_ROOT
+%endif
+
 # Install the default configuration file and icons
 install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/
 install -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/php.ini
@@ -712,6 +759,30 @@ install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/php.d
 #install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/php-zts.d
 install -m 755 -d $RPM_BUILD_ROOT%{_localstatedir}/lib/php
 install -m 700 -d $RPM_BUILD_ROOT%{_localstatedir}/lib/php/session
+
+# PHP-FPM stuff
+%if %{with_fpm}
+install -m 755 -d $RPM_BUILD_ROOT%{_localstatedir}/log/php-fpm
+install -m 755 -d $RPM_BUILD_ROOT%{_localstatedir}/run/php-fpm
+
+# FPM config
+install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.d
+install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.conf
+install -m 644 %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.d/www.conf
+mv $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.conf.default .
+
+# FPM service files
+install -m 755 -d $RPM_BUILD_ROOT%{_initrddir}
+install -m 755 %{SOURCE8} $RPM_BUILD_ROOT%{_initrddir}/php-fpm
+
+# logrotate stuff
+install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d
+install -m 644 %{SOURCE6} $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/php-fpm
+
+# FPM environment
+install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig
+install -m 644 %{SOURCE7} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/php-fpm
+%endif
 
 # Fix the link
 (cd $RPM_BUILD_ROOT%{_bindir}; ln -sfn phar.phar phar)
@@ -803,6 +874,25 @@ webserver restart
 
 %postun embedded -p /sbin/ldconfig
 
+# FPM stuff
+%if %{with_fpm}
+%post fpm
+if [ $1 = 1 ]; then
+	/sbin/chkconfig --add php-fpm
+fi
+
+%preun fpm
+if [ $1 = 0 ]; then
+	/sbin/service php-fpm stop >/dev/null 2>&1
+	/sbin/chkconfig --del php-fpm
+fi
+
+%postun fpm
+if [ $1 -ge 1 ]; then
+	/sbin/service php-fpm condrestart >/dev/null 2>&1 || :
+fi
+%endif
+
 %files
 %defattr(-,root,root)
 %{_libdir}/httpd/modules/libphp5.so
@@ -833,6 +923,24 @@ webserver restart
 %{_bindir}/phar
 %{_mandir}/man1/php.1*
 %doc sapi/cgi/README* sapi/cli/README
+
+# FPM stuff
+%if %{with_fpm}
+%files fpm
+%defattr(-,root,root)
+%doc php-fpm.conf.default
+%config(noreplace) %{_sysconfdir}/php-fpm.conf
+%config(noreplace) %{_sysconfdir}/php-fpm.d/www.conf
+%config(noreplace) %{_sysconfdir}/logrotate.d/php-fpm
+%config(noreplace) %{_sysconfdir}/sysconfig/php-fpm
+%{_initrddir}/php-fpm
+%{_sbindir}/php-fpm
+%dir %{_sysconfdir}/php-fpm.d
+%attr(770,apache,root) %dir %{_localstatedir}/log/php-fpm
+%dir %{_localstatedir}/run/php-fpm
+%{_mandir}/man8/php-fpm.8*
+%{_datadir}/fpm/status.html
+%endif
 
 %if 0%{?rhel} >= 5
 %files zts
@@ -879,6 +987,9 @@ webserver restart
 %files enchant -f files.enchant
 
 %changelog
+* Fri Mar 16 2012 Santi Saez <santi@woop.es> - 5.4.0-2
+- PHP-FPM support added
+
 * Thu Mar  7 2012 Santi Saez <santi@woop.es> - 5.4.0-1
 - Upgrade to upstream PHP 5.4.0, followup PowerStack changes http://kcy.me/7eaa
 - php-5.3-autoconf-2.59 patch removed (autoconf 2.59+ is now supported)
