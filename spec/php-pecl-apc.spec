@@ -4,14 +4,19 @@
 %global php_version %((echo 0; php-config --version 2>/dev/null) | tail -1)
 %define pecl_name APC
 
+# svn checkout -r %{svn_revision} https://svn.php.net/repository/pecl/apc/trunk apc-svn-%{svn_revision}
+# tar czfv apc-svn-%{svn_revision}.tgz apc-svn-%{svn_revision}
+%global svn_revision	324546
+
 Summary:       APC caches and optimizes PHP intermediate code
 Name:          php-pecl-apc
 Version:       3.1.9
-Release:       2
+Release:       3
 License:       PHP
 Group:         Development/Languages
 URL:           http://pecl.php.net/package/APC
-Source:        http://pecl.php.net/get/APC-%{version}.tgz
+#Source:       http://pecl.php.net/get/APC-%{version}.tgz
+Source:        APC-%{version}-%{svn_revision}.tgz
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root
 Conflicts:     php-mmcache php-eaccelerator
 BuildRequires: php-devel >= 5.1.0, httpd-devel, php-pear, pcre-devel
@@ -55,9 +60,24 @@ Files needed to compile programs using APC serializer
 
 
 %build
+
+# APC svn checkout?
+%if 0%{?svn_revision}
+mv apc-svn-%{svn_revision}/package.xml .
+mv apc-svn-%{svn_revision} APC-%{version}
+%endif
+
 cd APC-%{version}
 %{_bindir}/phpize
+
+# When APC is compiled with mmap support (Memory Mapping), it will use only one
+# memory segment, unlike when APC is built with SHM (SysV Shared Memory)
+# support that uses multiple memory segments. MMAP does not have a maximum
+# limit like SHM does in /proc/sys/kernel/shmmax. In general MMAP support is
+# recommeded because it will reclaim the memory faster when the webserver is
+# restarted and all in all reduces memory allocation impact at startup.
 %configure --enable-apc-mmap --with-php-config=%{_bindir}/php-config
+
 %{__make} %{?_smp_mflags}
 
 
@@ -187,6 +207,9 @@ fi
 
 
 %changelog
+* Mon Mar 26 2012 Santi Saez <santi@woop.es> - 3.1.9-3
+- APC v3.1.9 is not compatible with PHP 5.4, pull changes from SVN revision 324546
+
 * Sat Mar 10 2012 Santi Saez <santi@woop.es> - 3.1.9-2
 - PHP 5.4.x ABI support mass rebuild
 
