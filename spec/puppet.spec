@@ -5,7 +5,7 @@
 %global confdir conf/redhat
 
 Name:           puppet
-Version:        2.7.9
+Version:        2.7.13
 Release:        1
 Summary:        A network tool for managing many disparate systems
 License:        GPLv2
@@ -78,7 +78,7 @@ done
 for f in external/nagios.rb network/http_server/mongrel.rb relationship.rb; do
   sed -i -e '1d' lib/puppet/$f
 done
-chmod +x ext/puppetstoredconfigclean.rb
+#chmod +x ext/puppetstoredconfigclean.rb
 
 find examples/ -type f -empty | xargs rm
 find examples/ -type f | xargs chmod a-x
@@ -281,6 +281,9 @@ fi
 rm -rf %{buildroot}
 
 %changelog
+* Wed Apr 11 2012 Santi Saez <santi@woop.es> - 2.7.13-1
+- Upgrade to upstream Puppet 2.7.13
+
 * Thu Jan 19 2012 Santi Saez <santi@woop.es> - 2.7.9-1
 - Upgrade to upstream Puppet 2.7.9
 - Remove ruby-augeas and ruby-shadow RPM deps for RHEL-{4,5}
