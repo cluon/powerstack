@@ -1,5 +1,5 @@
 Name: mysql
-Version: 5.5.22
+Version: 5.5.23
 Release: 1
 Summary: MySQL client programs and shared libraries
 Group: Applications/Databases
@@ -675,11 +675,15 @@ fi
 %{_mandir}/man1/mysql_client_test.1*
 
 %changelog
-* Wed Mar 28 2012 Santi Saez - 5.5.22-1
+* Mon Apr 16 2012 Santi Saez <santi@woop.es> - 5.5.23-1
+- Upgrade to upstream MySQL 5.5.23, ChangeLog http://kcy.me/81d8
+- open_files_limit increased from 8192 to 16384 files
+
+* Wed Mar 28 2012 Santi Saez <santi@woop.es> - 5.5.22-1
 - Upgrade to upstream MySQL 5.5.22, ChangeLog http://kcy.me/7p8q
 - yaSSL upgraded from version 1.7.2 to 2.2.0
 
-* Thu Feb 23 2012 Santi Saez - 5.5.21-1
+* Thu Feb 23 2012 Santi Saez <santi@woop.es> - 5.5.21-1
 - Upgrade to upstream MySQL 5.5.21
 
 * Fri Jan 13 2012 Santi Saez <santi@woop.es> - 5.5.20-1
