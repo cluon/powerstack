@@ -8,7 +8,7 @@
 %define nginx_webroot   %{nginx_datadir}/html
 
 Name:           nginx
-Version:        1.0.14
+Version:        1.0.15
 Release:        1
 Summary:        Robust, small and high performance HTTP and reverse proxy server
 Group:          System Environment/Daemons   
@@ -196,6 +196,10 @@ fi
 
 
 %changelog
+* Mon Apr 16 2012 Santi Saez <santi@woop.es> - 1.0.15-1
+- Upgrade to upstream nginx 1.0.15
+- Fix the buffer overflow in the ngx_http_mp4_module (CVE-2012-2089)
+
 * Thu Mar 15 2012 Santi Saez <santi@woop.es> - 1.0.14-1
 - Upgrade to upstream nginx 1.0.14
 - Includes a fix for malformed HTTP responses from upstream servers (http://kcy.me/7i9j)
