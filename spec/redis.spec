@@ -2,7 +2,7 @@
 # http://code.google.com/p/redis/issues/detail?id=202
 
 Name:             redis
-Version:          2.4.6
+Version:          2.4.14
 Release:          1
 Summary:          A persistent key-value database
 
@@ -85,7 +85,7 @@ fi
 
 %files
 %defattr(-,root,root,-)
-%doc 00-RELEASENOTES BUGS CONTRIBUTING COPYING README TODO
+%doc 00-RELEASENOTES BUGS CONTRIBUTING COPYING README
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}.conf
 %dir %attr(0755, redis, root) %{_localstatedir}/lib/%{name}
@@ -96,6 +96,9 @@ fi
 %{_initrddir}/%{name}
 
 %changelog
+* Mon Jun  4 2012 Santi Saez <santi@woop.es> - 2.4.14-1
+- Upgrade to upstream Redis 2.4.14
+
 * Mon Jan 23 2012 Santi Saez <santi@woop.es> - 2.4.6-1
 - Upgrade to upstream Redis 2.4.6 (EPEL-6 backport)
 
