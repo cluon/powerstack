@@ -16,8 +16,8 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: php
-Version: 5.4.0
-Release: 2
+Version: 5.4.3
+Release: 1
 License: PHP
 Group: Development/Languages
 URL: http://www.php.net/
@@ -987,6 +987,11 @@ fi
 %files enchant -f files.enchant
 
 %changelog
+* Sun Jun 10 2012 Santi Saez <santi@woop.es> - 5.4.3-1
+- Upgrade to upstream PHP 5.4.3
+- CVE-2012-2311 fix
+- CVE-2012-2329 fix
+
 * Fri Mar 16 2012 Santi Saez <santi@woop.es> - 5.4.0-2
 - PHP-FPM support added
 
