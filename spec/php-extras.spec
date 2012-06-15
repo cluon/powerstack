@@ -25,7 +25,7 @@
 Name: php-extras
 Summary: Additional PHP modules from the standard PHP distribution
 #Version: %(php-config --version 2>/dev/null || echo 0)
-Version: 5.4.3
+Version: 5.4.4
 Release: 1
 Group: Development/Languages
 License: The PHP License
@@ -270,6 +270,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jun 14 2012 Santi Saez <santi@woop.es> - 5.4.4-1
+- Upgrade to upstream PHP 5.4.4, issue #25 on GitHub (http://kcy.me/96ls)
+- CVE-2012-2143 fix: a weakness in the DES implementation of crypt
+- Heap overflow issue in the phar extension
+- php://fd streams is now restricted to the CLI SAPI
+
 * Sun Jun 10 2012 Santi Saez <santi@woop.es> - 5.4.3-1
 - Upgrade to upstream PHP 5.4.3
 - CVE-2012-2311 fix
