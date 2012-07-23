@@ -19,6 +19,6 @@ Install new packages with Yum, for example:
 
 ### Features
 
-* Latest versions for LAMP stack (PHP 5.4, MySQL 5.5 and Apache 2.4)
+* Latest versions for LAMP stack (PHP 5.4, MySQL 5.5 and Apache 2.2)
 * [+100 extra packages](http://wiki.powerstack.org/Packages)
 * Compatible with EPEL
