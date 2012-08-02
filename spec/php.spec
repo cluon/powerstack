@@ -6,7 +6,7 @@
 # Extension version
 %global fileinfover 1.0.5
 %global pharver     2.0.1
-%global zipver      1.9.1
+%global zipver      1.11.0
 %global jsonver     1.2.1
 
 %define httpd_mmn %(cat %{_includedir}/httpd/.mmn || echo missing-httpd-devel)
@@ -16,7 +16,7 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: php
-Version: 5.4.4
+Version: 5.4.5
 Release: 1
 License: PHP
 Group: Development/Languages
@@ -987,6 +987,12 @@ fi
 %files enchant -f files.enchant
 
 %changelog
+* Mon Jul 23 2012 Santi Saez <santi@woop.es> - 5.4.5-1
+- Upgrade to upstream PHP 5.4.5, issue #28 on GitHub (http://kcy.me/a0fi)
+- Fix over 30 bugs, including CVE-2012-2688 (overflow in _php_stream_scandir)
+- Fixed information leak in EXIF extension
+- libzip upgraded to 0.10
+
 * Thu Jun 14 2012 Santi Saez <santi@woop.es> - 5.4.4-1
 - Upgrade to upstream PHP 5.4.4, issue #25 on GitHub (http://kcy.me/96ls)
 - CVE-2012-2143 fix: a weakness in the DES implementation of crypt
