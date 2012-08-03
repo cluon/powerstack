@@ -416,6 +416,25 @@ BuildRequires: enchant-devel >= 1.2.4
 The php-intl package contains a dynamic shared object that will add
 support for using the enchant library to PHP.
 
+%package -n php-mcrypt
+Summary: mcrypt library support for PHP
+Group: Development/Languages
+Requires: php-common = %{version}-%{release}
+BuildRequires: libmcrypt-devel
+
+%description -n php-mcrypt
+mcrypt library support for PHP
+
+%package -n php-mssql
+Summary: Microsoft SQL support for PHP
+Group: Development/Languages
+Requires: php-common = %{version}-%{release}, php-pdo
+Provides: php_database
+BuildRequires: freetds-devel
+
+%description -n php-mssql
+Microsoft SQL support for PHP
+
 
 %prep
 %setup -q
@@ -657,7 +676,10 @@ build --enable-force-cgi-redirect \
       --enable-intl=shared \
       --with-icu-dir=%{_prefix} \
       --with-enchant=shared,%{_prefix} \
-      --with-recode=shared,%{_prefix}
+      --with-recode=shared,%{_prefix} \
+      --with-mcrypt=shared,%{_prefix} \
+      --with-mssql=shared,%{_prefix} \
+      --with-pdo-dblib=shared,%{_prefix}
 popd
 
 without_shared="--without-mysql --without-gd \
@@ -793,7 +815,7 @@ for mod in pgsql mysql mysqli odbc ldap snmp xmlrpc imap \
     pdo pdo_mysql pdo_pgsql pdo_odbc pdo_sqlite json zip \
     sqlite3 enchant phar fileinfo intl \
     tidy pspell curl wddx \
-    posix sysvshm sysvsem sysvmsg recode; do
+    posix sysvshm sysvsem sysvmsg recode mcrypt mssql pdo_dblib ; do
     cat > $RPM_BUILD_ROOT%{_sysconfdir}/php.d/${mod}.ini <<EOF
 ; Enable ${mod} extension module
 extension=${mod}.so
@@ -814,6 +836,7 @@ cat files.mysqli >> files.mysql
 cat files.pdo_mysql >> files.mysql
 cat files.pdo_pgsql >> files.pgsql
 cat files.pdo_odbc >> files.odbc
+cat files.pdo_dblib >> files.mssql
 
 # sysv* and posix in packaged in php-process
 cat files.sysv* files.posix > files.process
@@ -985,6 +1008,8 @@ fi
 %files process -f files.process
 %files recode -f files.recode
 %files enchant -f files.enchant
+%files mcrypt -f files.mcrypt
+%files mssql -f files.mssql
 
 %changelog
 * Mon Jul 23 2012 Santi Saez <santi@woop.es> - 5.4.5-1
@@ -992,6 +1017,7 @@ fi
 - Fix over 30 bugs, including CVE-2012-2688 (overflow in _php_stream_scandir)
 - Fixed information leak in EXIF extension
 - libzip upgraded to 0.10
+- Merge mcrypt + MSSQL modules from php-extras.spec
 
 * Thu Jun 14 2012 Santi Saez <santi@woop.es> - 5.4.4-1
 - Upgrade to upstream PHP 5.4.4, issue #25 on GitHub (http://kcy.me/96ls)
